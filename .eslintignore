@@ -1,0 +1,6 @@
+node_modules/
+codegen.ts
+postcss.config.js
+tailwind.config.js
+codegen.ts
+src/generate
