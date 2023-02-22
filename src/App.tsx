@@ -7,7 +7,7 @@ function App() {
     const { data } = useQuery(ExampleTokensQueryDocument)
     console.log("data :", data)
 
-    return <div className="text-red-500">Uniswap</div>
+    return <div className="text-primary">Uniswap</div>
 }
 
 export default App
