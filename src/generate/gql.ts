@@ -13,8 +13,8 @@ import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "query ExampleTokensQuery {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n  }\n}":
-        types.ExampleTokensQueryDocument,
+  "query ExampleTokensQuery {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n  }\n}":
+    types.ExampleTokensQueryDocument,
 }
 
 /**
@@ -35,12 +35,12 @@ export function gql(source: string): unknown
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: "query ExampleTokensQuery {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n  }\n}"
+  source: "query ExampleTokensQuery {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n  }\n}"
 ): (typeof documents)["query ExampleTokensQuery {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n  }\n}"]
 
 export function gql(source: string) {
-    return (documents as any)[source] ?? {}
+  return (documents as any)[source] ?? {}
 }
 
 export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
-    TDocumentNode extends DocumentNode<infer TType, any> ? TType : never
+  TDocumentNode extends DocumentNode<infer TType, any> ? TType : never

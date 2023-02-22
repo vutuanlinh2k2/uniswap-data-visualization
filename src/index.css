@@ -10,10 +10,10 @@ h5,
 h6,
 p,
 button {
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
 th {
-    color: rgb(195, 197, 203) !important;
-    font-weight: 400;
+  color: rgb(195, 197, 203) !important;
+  font-weight: 400;
 }
