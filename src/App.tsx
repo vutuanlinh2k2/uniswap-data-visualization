@@ -1,13 +1,13 @@
 import React from "react"
-import { useQuery } from "@apollo/client"
 
-import { ExampleTokensQueryDocument } from "./generate/graphql"
+import { Header } from "./components/Header"
 
 function App() {
-    const { data } = useQuery(ExampleTokensQueryDocument)
-    console.log("data :", data)
-
-    return <div className="text-primary">Uniswap</div>
+    return (
+        <>
+            <Header />
+        </>
+    )
 }
 
 export default App
