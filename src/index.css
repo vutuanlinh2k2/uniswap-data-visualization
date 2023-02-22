@@ -12,3 +12,8 @@ p,
 button {
     color: rgb(255, 255, 255);
 }
+
+th {
+    color: rgb(195, 197, 203) !important;
+    font-weight: 400;
+}
