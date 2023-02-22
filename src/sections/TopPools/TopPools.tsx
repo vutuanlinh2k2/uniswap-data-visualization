@@ -1,7 +1,14 @@
 import React from "react"
 
+import { TopPoolsTable } from "../../components/Tables"
+
 const TopPools = () => {
-    return <h2 className="text-grey-primary-text">Top Pools</h2>
+    return (
+        <div>
+            <h2 className="text-grey-primary-text">Top Pools</h2>
+            <TopPoolsTable />
+        </div>
+    )
 }
 
 export default TopPools

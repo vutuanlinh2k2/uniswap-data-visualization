@@ -7,7 +7,7 @@ function App() {
     return (
         <div>
             <Header />
-            <div className="px-24 bg-secondary pt-4 pb-12">
+            <div className="px-24 bg-secondary pt-4 pb-12 flex flex-col gap-2">
                 <UniswapOverview />
                 <TopTokens />
                 <TopPools />
