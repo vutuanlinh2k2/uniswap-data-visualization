@@ -1,0 +1,55 @@
+query getTransactionsData {
+  transactions(first: 500, orderBy: timestamp, orderDirection: desc, subgraphError: allow) {
+    id
+    timestamp
+    mints {
+      amount0
+      amount1
+      amountUSD
+      origin
+      pool {
+        token0 {
+          id
+          symbol
+        }
+        token1 {
+          id
+          symbol
+        }
+      }
+    }
+    burns {
+      id
+      amount0
+      amount1
+      amountUSD
+      origin
+      pool {
+        token0 {
+          id
+          symbol
+        }
+        token1 {
+          id
+          symbol
+        }
+      }
+    }
+    swaps {
+      amount0
+      amount1
+      amountUSD
+      origin
+      pool {
+        token0 {
+          id
+          symbol
+        }
+        token1 {
+          id
+          symbol
+        }
+      }
+    }
+  }
+}

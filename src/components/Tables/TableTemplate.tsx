@@ -5,10 +5,9 @@ import { BsArrowUp, BsArrowDown, BsArrowLeft, BsArrowRight } from "react-icons/b
 
 export interface TableProps {
   tableInstance: ReturnType<typeof useTable>
-  filterable?: boolean
 }
 
-const TableTemplate: React.FC<TableProps> = ({ tableInstance, filterable = false }) => {
+const TableTemplate: React.FC<TableProps> = ({ tableInstance }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -35,7 +34,11 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, filterable = false
                       {...column.getHeaderProps(column.getSortByToggleProps())}
                       key={i}
                       scope="col"
-                      className="hover:opacity-60 border-b border-secondary"
+                      className={
+                        !column.canFilter
+                          ? "hover:opacity-60 border-b border-secondary"
+                          : "border-b border-secondary"
+                      }
                     >
                       <div className="flex items-center gap-1 py-3">
                         {column.render("Header")}
@@ -48,7 +51,7 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, filterable = false
                             )
                           ) : null}
                         </span>
-                        <div>{filterable && column.canFilter ? column.render("Filter") : null}</div>
+                        <div>{column.canFilter ? column.render("Filter") : null}</div>
                       </div>
                     </th>
                   )
@@ -61,7 +64,7 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, filterable = false
           {page.map((row, idx) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()} key={idx} className="hover:opacity-60">
+              <tr {...row.getRowProps()} key={idx} className="hover:opacity-60 cursor-pointer">
                 {row.cells.map((cell, idx) => {
                   return (
                     <td
