@@ -1,0 +1,6 @@
+query getCurrentEthPrice {
+  bundles(where: { id: "1" }) {
+    id
+    ethPriceUSD
+  }
+}

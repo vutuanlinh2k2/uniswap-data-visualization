@@ -3,8 +3,10 @@ export interface TokenData {
   name: string
   symbol: string
   totalValueLockedUSD: number
+  derivedETH: number
 }
 
 export interface AppContextType {
   tokensData: TokenData[]
+  ethPriceUsd: number | null
 }

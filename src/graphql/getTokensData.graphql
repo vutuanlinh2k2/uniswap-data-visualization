@@ -4,5 +4,6 @@ query getTokensData {
     name
     symbol
     totalValueLockedUSD
+    derivedETH
   }
 }

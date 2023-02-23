@@ -2,10 +2,11 @@ import React, { useState, useEffect, createContext } from "react"
 import { useLazyQuery } from "@apollo/client"
 
 import { AppContextType, TokenData } from "./types/app"
-import { GetTokensDataDocument } from "./generate/graphql"
+import { GetTokensDataDocument, GetCurrentEthPriceDocument } from "./generate/graphql"
 
 export const AppContext = createContext<AppContextType>({
   tokensData: [],
+  ethPriceUsd: null,
 })
 
 interface AppContextProviderProps {
@@ -14,26 +15,42 @@ interface AppContextProviderProps {
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [tokensData, setTokensData] = useState<AppContextType["tokensData"]>([])
+  const [ethPriceUsd, setEthPriceUsd] = useState<AppContextType["ethPriceUsd"]>(null)
 
+  const [getCurrentEthPriceQuery] = useLazyQuery(GetCurrentEthPriceDocument, {
+    fetchPolicy: "network-only",
+  })
   const [getTokensQuery] = useLazyQuery(GetTokensDataDocument, { fetchPolicy: "network-only" })
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await getTokensQuery()
-      if (!data) return
-      console.log("data :", data)
-      const formattedData = data.tokens.map((token: TokenData) => {
+    const fetchTokenData = async () => {
+      const { data: queryTokenData } = await getTokensQuery()
+      if (!queryTokenData) return
+
+      const formattedData = queryTokenData.tokens.map((token: TokenData) => {
         return {
           id: token.id,
           name: token.name,
           symbol: token.symbol,
           totalValueLockedUSD: token.totalValueLockedUSD,
+          derivedETH: token.derivedETH,
         }
       })
       setTokensData(formattedData)
     }
-    fetchData()
+    fetchTokenData()
   }, [])
 
-  return <AppContext.Provider value={{ tokensData }}>{children}</AppContext.Provider>
+  useEffect(() => {
+    const fetchEthPrice = async () => {
+      const { data: queryEthPriceData } = await getCurrentEthPriceQuery()
+      if (!queryEthPriceData) return
+      const ethPriceUSD = queryEthPriceData.bundles[0].ethPriceUSD
+
+      setEthPriceUsd(ethPriceUSD)
+    }
+    fetchEthPrice()
+  }, [])
+
+  return <AppContext.Provider value={{ tokensData, ethPriceUsd }}>{children}</AppContext.Provider>
 }

@@ -13,7 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "query getTokensData {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n    name\n    symbol\n    totalValueLockedUSD\n  }\n}": types.GetTokensDataDocument,
+    "query getCurrentEthPrice {\n  bundles(where: {id: \"1\"}) {\n    id\n    ethPriceUSD\n  }\n}": types.GetCurrentEthPriceDocument,
+    "query getTokensData {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n    name\n    symbol\n    totalValueLockedUSD\n    derivedETH\n  }\n}": types.GetTokensDataDocument,
 };
 
 /**
@@ -33,7 +34,11 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "query getTokensData {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n    name\n    symbol\n    totalValueLockedUSD\n  }\n}"): (typeof documents)["query getTokensData {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n    name\n    symbol\n    totalValueLockedUSD\n  }\n}"];
+export function gql(source: "query getCurrentEthPrice {\n  bundles(where: {id: \"1\"}) {\n    id\n    ethPriceUSD\n  }\n}"): (typeof documents)["query getCurrentEthPrice {\n  bundles(where: {id: \"1\"}) {\n    id\n    ethPriceUSD\n  }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "query getTokensData {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n    name\n    symbol\n    totalValueLockedUSD\n    derivedETH\n  }\n}"): (typeof documents)["query getTokensData {\n  tokens(\n    first: 50\n    orderBy: totalValueLockedUSD\n    orderDirection: desc\n    subgraphError: allow\n  ) {\n    id\n    name\n    symbol\n    totalValueLockedUSD\n    derivedETH\n  }\n}"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

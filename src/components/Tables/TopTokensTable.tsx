@@ -18,7 +18,7 @@ const TokenNameCell = ({ name, row, column }: { name: string; row: any; column: 
 }
 
 const TopTokensTable = () => {
-  const { tokensData } = useContext(AppContext)
+  const { tokensData, ethPriceUsd } = useContext(AppContext)
 
   const data = useMemo(() => {
     return tokensData.map((token, i) => {
@@ -47,12 +47,23 @@ const TopTokensTable = () => {
         accessorSymbol: "symbol",
       },
       {
-        Header: () => <p className="text-right w-full">TVL</p>,
-        Cell: ({ value }: { value: number }) => <p className="text-right">{formatDollar(value)}</p>,
+        Header: () => <p className="text-right w-full text-grey-primary-text">Price</p>,
+        Cell: ({ value }: { value: number }) => (
+          <p className="text-right text-lg">
+            {ethPriceUsd ? formatDollar(value * ethPriceUsd) : ""}
+          </p>
+        ),
+        accessor: "derivedETH",
+      },
+      {
+        Header: () => <p className="text-right w-full text-grey-primary-text">TVL</p>,
+        Cell: ({ value }: { value: number }) => (
+          <p className="text-right text-lg">{formatDollar(value)}</p>
+        ),
         accessor: "totalValueLockedUSD",
       },
     ],
-    []
+    [ethPriceUsd]
   )
 
   const tableInstance = useTable(
