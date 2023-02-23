@@ -1,113 +1,55 @@
-import React, { useMemo } from "react"
+import React, { useContext, useMemo } from "react"
 import { Column, usePagination, useSortBy, useTable } from "react-table"
 
+import { AppContext } from "../../AppContext"
 import TableTemplate from "./TableTemplate"
+import { formatDollar } from "../../utils/numbers"
 
-const data = [
-  {
-    id: 1,
-    name: "Uniswap",
-  },
-  {
-    id: 2,
-    name: "Uniswap",
-  },
-  {
-    id: 3,
-    name: "Uniswap",
-  },
-  {
-    id: 4,
-    name: "Uniswap",
-  },
-  {
-    id: 5,
-    name: "Uniswap",
-  },
-  {
-    id: 6,
-    name: "Uniswap",
-  },
-  {
-    id: 7,
-    name: "Uniswap",
-  },
-  {
-    id: 8,
-    name: "Uniswap",
-  },
-  {
-    id: 9,
-    name: "Uniswap",
-  },
-  {
-    id: 10,
-    name: "Uniswap",
-  },
-  {
-    id: 11,
-    name: "Uniswap",
-  },
-  {
-    id: 12,
-    name: "Uniswap",
-  },
-  {
-    id: 13,
-    name: "Uniswap",
-  },
-  {
-    id: 14,
-    name: "Uniswap",
-  },
-  {
-    id: 15,
-    name: "Uniswap",
-  },
-  {
-    id: 16,
-    name: "Uniswap",
-  },
-  {
-    id: 17,
-    name: "Uniswap",
-  },
-  {
-    id: 18,
-    name: "Uniswap",
-  },
-  {
-    id: 19,
-    name: "Uniswap",
-  },
-  {
-    id: 20,
-    name: "Uniswap",
-  },
-  {
-    id: 21,
-    name: "Uniswap",
-  },
-  {
-    id: 22,
-    name: "Uniswap",
-  },
-]
+const TokenNameCell = ({ name, row, column }: { name: string; row: any; column: any }) => {
+  const symbol: string = row.original[column.accessorSymbol]
+
+  return (
+    <div className="flex items-center gap-2">
+      <div className="w-6 h-6 bg-white rounded-full" />
+      <p>{name}</p>
+      <p className="text-grey-secondary-text">({symbol})</p>
+    </div>
+  )
+}
 
 const TopTokensTable = () => {
+  const { tokensData } = useContext(AppContext)
+
+  const data = useMemo(() => {
+    return tokensData.map((token, i) => {
+      return {
+        ...token,
+        id: i + 1,
+      }
+    })
+  }, [tokensData])
+
   const columns = useMemo<ReadonlyArray<Column>>(
     () => [
       {
         Header: () => <span>#</span>,
         Cell: ({ value }: { value: number }) => <p>{value}</p>,
         accessor: "id",
-        // disableSortBy: false,
+        disableSortBy: true,
       },
       {
         Header: () => <span>Name</span>,
-        Cell: ({ value }: { value: string }) => <p>{value}</p>,
+        Cell: (args) => {
+          const { value, row, column } = args
+          return <TokenNameCell name={value} row={row} column={column} />
+        },
         accessor: "name",
-        disableSortBy: true,
+        accessorSymbol: "symbol",
+      },
+      {
+        Header: () => <p className="text-right w-full">TVL</p>,
+        Cell: ({ value }: { value: number }) => <p className="text-right">{formatDollar(value)}</p>,
+        accessor: "totalValueLockedUSD",
       },
     ],
     []

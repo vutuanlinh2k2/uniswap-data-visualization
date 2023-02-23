@@ -35,9 +35,9 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, filterable = false
                       {...column.getHeaderProps(column.getSortByToggleProps())}
                       key={i}
                       scope="col"
-                      className="hover:opacity-80 border-b border-secondary"
+                      className="hover:opacity-60 border-b border-secondary"
                     >
-                      <div className="flex items-center gap-2 py-3">
+                      <div className="flex items-center gap-1 py-3">
                         {column.render("Header")}
                         <span>
                           {column.isSorted ? (
@@ -46,9 +46,7 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, filterable = false
                             ) : (
                               <BsArrowUp />
                             )
-                          ) : (
-                            ""
-                          )}
+                          ) : null}
                         </span>
                         <div>{filterable && column.canFilter ? column.render("Filter") : null}</div>
                       </div>
@@ -63,7 +61,7 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, filterable = false
           {page.map((row, idx) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()} key={idx} className="hover:opacity-80">
+              <tr {...row.getRowProps()} key={idx} className="hover:opacity-60">
                 {row.cells.map((cell, idx) => {
                   return (
                     <td

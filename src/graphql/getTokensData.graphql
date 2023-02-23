@@ -1,5 +1,8 @@
-query ExampleTokensQuery {
+query getTokensData {
   tokens(first: 50, orderBy: totalValueLockedUSD, orderDirection: desc, subgraphError: allow) {
     id
+    name
+    symbol
+    totalValueLockedUSD
   }
 }
