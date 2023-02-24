@@ -1,0 +1,28 @@
+query getTopPools {
+  pools(first: 50, orderBy: totalValueLockedUSD, orderDirection: desc, subgraphError: allow) {
+    id
+  }
+}
+
+query getPoolsData($idIn: [ID!], $block: Block_height) {
+  pools(
+    where: { id_in: $idIn }
+    block: $block
+    orderBy: totalValueLockedUSD
+    orderDirection: desc
+    subgraphError: allow
+  ) {
+    id
+    token0 {
+      id
+      symbol
+    }
+    token1 {
+      id
+      symbol
+    }
+    totalValueLockedUSD
+    feeTier
+    volumeUSD
+  }
+}

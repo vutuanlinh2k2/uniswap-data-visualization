@@ -3,11 +3,7 @@ import { useLazyQuery } from "@apollo/client"
 
 import { AppContextType } from "../types/types"
 import { UniswapV3Client, EthereumBlocksClient } from "../apollo"
-import {
-  GetTopTokensDocument,
-  GetTokensDataDocument,
-  GetTokensDataBasedOnBlockDocument,
-} from "../generate/uniswap-v3/graphql"
+import { GetTopTokensDocument, GetTokensDataDocument } from "../generate/uniswap-v3/graphql"
 import { getUnix24h } from "../utils/time"
 import { getBlocksQueryDocument } from "../utils/ethereumBlocks"
 
@@ -32,11 +28,6 @@ export default () => {
     fetchPolicy: "network-only",
   })
 
-  const [getTokensBasedOnBlockQuery] = useLazyQuery(GetTokensDataBasedOnBlockDocument, {
-    client: UniswapV3Client,
-    fetchPolicy: "network-only",
-  })
-
   const fetchTokensData = async () => {
     try {
       const { data: queryTopTokenData } = await getTopTokensQuery()
@@ -52,10 +43,10 @@ export default () => {
         },
       })
 
-      const { data: queryTokensData24h } = await getTokensBasedOnBlockQuery({
+      const { data: queryTokensData24h } = await getTokensQuery({
         variables: {
           idIn: ids,
-          blockNumber: blockNumber,
+          block: { number: blockNumber },
         },
       })
 

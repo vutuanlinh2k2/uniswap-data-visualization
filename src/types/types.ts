@@ -6,6 +6,14 @@ export interface TokenData {
   derivedETH: number
 }
 
+export interface PoolData {
+  id: string
+  token0: string
+  token1: string
+  tvl: number
+  volume24h: number
+}
+
 export interface TransactionData {
   hash: string | undefined
   timestamp: number | undefined
@@ -20,6 +28,7 @@ export interface TransactionData {
 
 export interface AppContextType {
   tokensData: TokenData[]
+  poolsData: PoolData[] | undefined
   transactionsData: TransactionData[]
   ethPriceUsd: number | null
 }
