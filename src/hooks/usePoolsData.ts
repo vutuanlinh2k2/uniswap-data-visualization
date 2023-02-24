@@ -49,19 +49,25 @@ export default () => {
           idIn: ids,
         },
       })
+      console.log("queryPoolsData: ", queryPoolsData)
+      console.log("queryPoolsData24h: ", queryPoolsData24h)
 
-      console.log("queryPoolsData :", queryPoolsData?.pools[4])
-      console.log("queryPoolsData24h: ", queryPoolsData24h?.pools[4])
-
-      const formattedData = queryPoolsData?.pools.map((pool, i) => {
-        return {
-          id: pool.id,
-          token0: pool.token0.symbol,
-          token1: pool.token1.symbol,
-          tvl: pool.totalValueLockedUSD,
-          volume24h: pool.volumeUSD - queryPoolsData24h?.pools[i].volumeUSD,
-        }
-      })
+      const formattedData =
+        queryPoolsData && queryPoolsData24h
+          ? queryPoolsData?.pools.map((pool, i) => {
+              return {
+                id: pool.id,
+                token0: pool.token0.symbol,
+                token1: pool.token1.symbol,
+                feeTier: parseInt(pool.feeTier),
+                tvl: parseFloat(pool.totalValueLockedUSD),
+                volume24h: Math.abs(
+                  parseFloat(pool.totalValueLockedUSD) -
+                    parseFloat(queryPoolsData24h?.pools[i].totalValueLockedUSD)
+                ),
+              }
+            })
+          : []
       setPoolsData(formattedData)
     } catch (e) {
       console.log(e)

@@ -36,7 +36,7 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance }) => {
                       scope="col"
                       className={
                         !column.canFilter
-                          ? "hover:opacity-60 border-b border-secondary"
+                          ? "hover:opacity-60 border-b border-secondary cursor-pointer"
                           : "border-b border-secondary"
                       }
                     >

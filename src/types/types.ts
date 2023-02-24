@@ -10,6 +10,7 @@ export interface PoolData {
   id: string
   token0: string
   token1: string
+  feeTier: number
   tvl: number
   volume24h: number
 }
@@ -28,7 +29,7 @@ export interface TransactionData {
 
 export interface AppContextType {
   tokensData: TokenData[]
-  poolsData: PoolData[] | undefined
+  poolsData: PoolData[]
   transactionsData: TransactionData[]
   ethPriceUsd: number | null
 }

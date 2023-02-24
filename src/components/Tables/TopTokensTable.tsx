@@ -6,7 +6,7 @@ import TableTemplate from "./TableTemplate"
 import { TableHeaderText, TableCellText } from "./TableText"
 import { formatDollar } from "../../utils/numbers"
 
-const TokenNameCell = ({ name, symbol }: { name: string; symbol: string }) => {
+const TokenDescriptionCell = ({ name, symbol }: { name: string; symbol: string }) => {
   return (
     <div className="flex items-center gap-2">
       <div className="w-6 h-6 bg-white rounded-full" />
@@ -43,7 +43,7 @@ const TopTokensTable = () => {
         Cell: (args) => {
           const { value, row } = args
           const symbol = row.original["symbol" as keyof typeof row.original]
-          return <TokenNameCell name={value} symbol={symbol} />
+          return <TokenDescriptionCell name={value} symbol={symbol} />
         },
         accessor: "name",
       },
