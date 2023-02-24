@@ -15,3 +15,11 @@ export const getTimeSinceEpoch = (epochSeconds: number): string => {
     return `${daysAgo} day${daysAgo > 1 ? "s" : ""} ago`
   }
 }
+
+export const getUnixOneDay = () => {
+  const now = Date.now()
+  const oneDayInMilliseconds = 24 * 60 * 60 * 1000
+  const oneDayAgo = now - oneDayInMilliseconds
+  const oneDayAgoInSeconds = Math.floor(oneDayAgo / 1000)
+  return oneDayAgoInSeconds
+}
