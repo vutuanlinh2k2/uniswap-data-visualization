@@ -3,6 +3,7 @@ import { Column, usePagination, useSortBy, useTable } from "react-table"
 
 import { AppContext } from "../../AppContext"
 import TableTemplate from "./TableTemplate"
+import { TableHeaderText, TableCellText } from "./TableText"
 import { formatDollar } from "../../utils/numbers"
 
 const TokenNameCell = ({ name, symbol }: { name: string; symbol: string }) => {
@@ -30,35 +31,30 @@ const TopTokensTable = () => {
   const columns = useMemo<ReadonlyArray<Column>>(
     () => [
       {
-        Header: () => <span>#</span>,
+        Header: "#",
         Cell: ({ value }: { value: number }) => <p>{value}</p>,
         accessor: "id",
         disableSortBy: true,
       },
       {
-        Header: () => <span>Name</span>,
+        Header: "Name",
         Cell: (args) => {
           const { value, row } = args
           const symbol = row.original["symbol" as keyof typeof row.original]
           return <TokenNameCell name={value} symbol={symbol} />
         },
         accessor: "name",
-        accessorSymbol: "symbol",
       },
       {
-        Header: () => <p className="text-right w-full text-grey-primary-text">Price</p>,
+        Header: () => <TableHeaderText headerTitle="Price" />,
         Cell: ({ value }: { value: number }) => (
-          <p className="text-right text-lg">
-            {ethPriceUsd ? formatDollar(value * ethPriceUsd) : ""}
-          </p>
+          <TableCellText cellText={ethPriceUsd ? formatDollar(value * ethPriceUsd) : ""} />
         ),
         accessor: "derivedETH",
       },
       {
-        Header: () => <p className="text-right w-full text-grey-primary-text">TVL</p>,
-        Cell: ({ value }: { value: number }) => (
-          <p className="text-right text-lg">{formatDollar(value)}</p>
-        ),
+        Header: () => <TableHeaderText headerTitle="TVL" />,
+        Cell: ({ value }: { value: number }) => <TableCellText cellText={formatDollar(value)} />,
         accessor: "totalValueLockedUSD",
       },
     ],

@@ -3,6 +3,7 @@ import { Column, usePagination, useSortBy, useTable, useFilters, ColumnInstance 
 
 import { AppContext } from "../../AppContext"
 import TableTemplate from "./TableTemplate"
+import { TableHeaderText, TableCellText } from "./TableText"
 import { formatDollar, formatNumber } from "../../utils/numbers"
 import { getTimeSinceEpoch } from "../../utils/time"
 import { shortenHash } from "../../utils/shorten"
@@ -57,7 +58,6 @@ const TransactionFilter: React.FC<{ column: ColumnInstance }> = ({
 
 const TransactionsTable = () => {
   const { transactionsData } = useContext(AppContext)
-  console.log("transactionsData :", transactionsData)
 
   const columns = useMemo<ReadonlyArray<Column>>(
     () => [
@@ -77,13 +77,13 @@ const TransactionsTable = () => {
         Filter: (args) => <TransactionFilter {...args} />,
       },
       {
-        Header: () => <p className="text-right w-full text-grey-primary-text">Total Value</p>,
-        Cell: ({ value }: { value: number }) => <p className="text-right">{formatDollar(value)}</p>,
+        Header: () => <TableHeaderText headerTitle="Total Value" />,
+        Cell: ({ value }: { value: number }) => <TableCellText cellText={formatDollar(value)} />,
         accessor: "totalValue",
         disableFilters: true,
       },
       {
-        Header: () => <p className="text-right w-full text-grey-primary-text">Token Amount</p>,
+        Header: () => <TableHeaderText headerTitle="Token Amount" />,
         Cell: (args) => {
           const { value, row } = args
           const amount = row.original["token0Amount" as keyof typeof row.original]
@@ -93,7 +93,7 @@ const TransactionsTable = () => {
         disableFilters: true,
       },
       {
-        Header: () => <p className="text-right w-full text-grey-primary-text">Token Amount</p>,
+        Header: () => <TableHeaderText headerTitle="Token Amount" />,
         Cell: (args) => {
           const { value, row } = args
           const amount = row.original["token1Amount" as keyof typeof row.original]
@@ -103,7 +103,7 @@ const TransactionsTable = () => {
         disableFilters: true,
       },
       {
-        Header: () => <p className="text-right w-full text-grey-primary-text">Account</p>,
+        Header: () => <TableHeaderText headerTitle="Account" />,
         Cell: ({ value }: { value: string }) => (
           <p className="text-right">
             <a href={getEtherScanAccount(value)} className="text-lg text-pink">
@@ -115,9 +115,9 @@ const TransactionsTable = () => {
         disableFilters: true,
       },
       {
-        Header: () => <p className="text-right w-full text-grey-primary-text">Time</p>,
+        Header: () => <TableHeaderText headerTitle="Time" />,
         Cell: ({ value }: { value: number }) => (
-          <p className="text-right">{getTimeSinceEpoch(value)}</p>
+          <TableCellText cellText={getTimeSinceEpoch(value)} />
         ),
         accessor: "timestamp",
         disableFilters: true,
