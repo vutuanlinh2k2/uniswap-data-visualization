@@ -40,9 +40,9 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance }) => {
                           : "border-b border-secondary"
                       }
                     >
-                      <div className="flex items-center gap-1 py-3">
+                      <div className="flex items-center py-3">
                         {column.render("Header")}
-                        <span>
+                        <span className="mr-1">
                           {column.isSorted ? (
                             column.isSortedDesc ? (
                               <BsArrowDown />

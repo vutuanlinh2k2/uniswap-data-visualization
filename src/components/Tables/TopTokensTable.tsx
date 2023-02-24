@@ -5,9 +5,7 @@ import { AppContext } from "../../AppContext"
 import TableTemplate from "./TableTemplate"
 import { formatDollar } from "../../utils/numbers"
 
-const TokenNameCell = ({ name, row, column }: { name: string; row: any; column: any }) => {
-  const symbol: string = row.original[column.accessorSymbol]
-
+const TokenNameCell = ({ name, symbol }: { name: string; symbol: string }) => {
   return (
     <div className="flex items-center gap-2">
       <div className="w-6 h-6 bg-white rounded-full" />
@@ -40,8 +38,9 @@ const TopTokensTable = () => {
       {
         Header: () => <span>Name</span>,
         Cell: (args) => {
-          const { value, row, column } = args
-          return <TokenNameCell name={value} row={row} column={column} />
+          const { value, row } = args
+          const symbol = row.original["symbol" as keyof typeof row.original]
+          return <TokenNameCell name={value} symbol={symbol} />
         },
         accessor: "name",
         accessorSymbol: "symbol",
