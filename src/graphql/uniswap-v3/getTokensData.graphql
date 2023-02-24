@@ -1,9 +1,42 @@
-query getTokensData {
+query getTopTokens {
   tokens(first: 50, orderBy: totalValueLockedUSD, orderDirection: desc, subgraphError: allow) {
     id
-    name
+  }
+}
+
+query getTokensData($idIn: [ID!]) {
+  tokens(
+    where: { id_in: $idIn }
+    orderBy: totalValueLockedUSD
+    orderDirection: desc
+    subgraphError: allow
+  ) {
+    id
     symbol
-    totalValueLockedUSD
+    name
     derivedETH
+    volumeUSD
+    volume
+    feesUSD
+    totalValueLockedUSD
+  }
+}
+
+query getTokensDataBasedOnBlock($idIn: [ID!], $blockNumber: Int) {
+  tokens(
+    where: { id_in: $idIn }
+    block: { number: $blockNumber }
+    orderBy: totalValueLockedUSD
+    orderDirection: desc
+    subgraphError: allow
+  ) {
+    id
+    symbol
+    name
+    derivedETH
+    volumeUSD
+    volume
+    feesUSD
+    totalValueLockedUSD
   }
 }

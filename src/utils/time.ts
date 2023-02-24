@@ -16,10 +16,12 @@ export const getTimeSinceEpoch = (epochSeconds: number): string => {
   }
 }
 
-export const getUnixOneDay = () => {
-  const now = Date.now()
+export const getUnix24h = (): string => {
+  const now = new Date()
   const oneDayInMilliseconds = 24 * 60 * 60 * 1000
-  const oneDayAgo = now - oneDayInMilliseconds
-  const oneDayAgoInSeconds = Math.floor(oneDayAgo / 1000)
-  return oneDayAgoInSeconds
+  const oneDayAgo = new Date(now.getTime() - oneDayInMilliseconds)
+  oneDayAgo.setSeconds(0)
+  oneDayAgo.setMilliseconds(0)
+  const oneDayAgoInSeconds = Math.floor(oneDayAgo.getTime() / 1000)
+  return oneDayAgoInSeconds.toString()
 }

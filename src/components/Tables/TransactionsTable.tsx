@@ -41,9 +41,9 @@ const TransactionFilter: React.FC<{ column: ColumnInstance }> = ({
   const unselectedClassName = "text-grey-secondary-text"
   return (
     <div className="flex gap-3 cursor-pointer">
-      {transactionFilterOptions.map((option) => (
+      {transactionFilterOptions.map((option, i) => (
         <p
-          key={option.value}
+          key={i}
           className={filterValue === option.value ? "" : unselectedClassName}
           onClick={() => {
             setFilter(option.value)

@@ -16,6 +16,8 @@ const TokenNameCell = ({ name, symbol }: { name: string; symbol: string }) => {
   )
 }
 
+const emptyData: any[] = []
+
 const TopTokensTable = () => {
   const { tokensData, ethPriceUsd } = useContext(AppContext)
 
@@ -64,7 +66,7 @@ const TopTokensTable = () => {
   const tableInstance = useTable(
     {
       columns,
-      data,
+      data: emptyData,
       initialState: {
         pageSize: 10,
       },
@@ -72,7 +74,6 @@ const TopTokensTable = () => {
     useSortBy,
     usePagination
   )
-
   return <TableTemplate tableInstance={tableInstance} />
 }
 
