@@ -1,12 +1,13 @@
 import React, { useState, useEffect, createContext } from "react"
 import { useLazyQuery } from "@apollo/client"
 
+import { UniswapV3Client } from "./apollo"
 import { AppContextType, TokenData } from "./types/types"
 import {
   GetTokensDataDocument,
   GetCurrentEthPriceDocument,
   GetTransactionsDataDocument,
-} from "./generate/graphql"
+} from "./generate/uniswap-v3/graphql"
 
 export const AppContext = createContext<AppContextType>({
   tokensData: [],
@@ -24,10 +25,15 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [transactionsData, setTransactionsData] = useState<AppContextType["transactionsData"]>([])
 
   const [getCurrentEthPriceQuery] = useLazyQuery(GetCurrentEthPriceDocument, {
+    client: UniswapV3Client,
     fetchPolicy: "network-only",
   })
-  const [getTokensQuery] = useLazyQuery(GetTokensDataDocument, { fetchPolicy: "network-only" })
+  const [getTokensQuery] = useLazyQuery(GetTokensDataDocument, {
+    client: UniswapV3Client,
+    fetchPolicy: "network-only",
+  })
   const [getTransactionsQuery] = useLazyQuery(GetTransactionsDataDocument, {
+    client: UniswapV3Client,
     fetchPolicy: "network-only",
   })
 
