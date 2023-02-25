@@ -2,8 +2,10 @@ export interface TokenData {
   id: string | number
   name: string
   symbol: string
-  totalValueLockedUSD: number
-  derivedETH: number
+  tvl: number
+  price: number
+  priceChange: number
+  volume24h: number
 }
 
 export interface PoolData {
@@ -31,5 +33,4 @@ export interface AppContextType {
   tokensData: TokenData[]
   poolsData: PoolData[]
   transactionsData: TransactionData[]
-  ethPriceUsd: number | null
 }

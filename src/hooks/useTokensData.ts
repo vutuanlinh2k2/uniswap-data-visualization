@@ -3,8 +3,13 @@ import { useLazyQuery } from "@apollo/client"
 
 import { AppContextType } from "../types/types"
 import { UniswapV3Client, EthereumBlocksClient } from "../apollo"
-import { GetTopTokensDocument, GetTokensDataDocument } from "../generate/uniswap-v3/graphql"
+import {
+  GetTopTokensDocument,
+  GetTokensDataDocument,
+  GetEthPriceDocument,
+} from "../generate/uniswap-v3/graphql"
 import { getUnix24h } from "../utils/time"
+import { roundedSmallFloat } from "../utils/numbers"
 import { getBlocksQueryDocument } from "../utils/ethereumBlocks"
 
 export default () => {
@@ -24,6 +29,11 @@ export default () => {
   })
 
   const [getTokensQuery] = useLazyQuery(GetTokensDataDocument, {
+    client: UniswapV3Client,
+    fetchPolicy: "network-only",
+  })
+
+  const [getEthPrice] = useLazyQuery(GetEthPriceDocument, {
     client: UniswapV3Client,
     fetchPolicy: "network-only",
   })
@@ -50,23 +60,44 @@ export default () => {
         },
       })
 
+      const { data: queryEthPrice } = await getEthPrice({
+        variables: {
+          block24: blockNumber,
+        },
+      })
+
       console.log("queryTokensData :", queryTokensData)
       console.log("queryTokensData24h: ", queryTokensData24h)
+      console.log("queryEthPrice: ", queryEthPrice)
+
+      const formattedData =
+        queryTokensData && queryTokensData24h && queryEthPrice
+          ? queryTokensData?.tokens.map((token, i) => {
+              const tokenPrice =
+                parseFloat(token.derivedETH) * parseFloat(queryEthPrice?.current[0].ethPriceUSD)
+              const tokenPrice24h =
+                parseFloat(queryTokensData24h?.tokens[i].derivedETH) *
+                parseFloat(queryEthPrice?.oneDay[0].ethPriceUSD)
+              const priceChange = 100 * ((tokenPrice - tokenPrice24h) / tokenPrice24h)
+
+              return {
+                id: token.id,
+                name: token.name,
+                symbol: token.symbol,
+                tvl: token.totalValueLockedUSD,
+                price: roundedSmallFloat(tokenPrice),
+                priceChange: roundedSmallFloat(priceChange),
+                volume24h: Math.abs(
+                  parseFloat(token.volumeUSD) - parseFloat(queryTokensData24h?.tokens[i].volumeUSD)
+                ),
+              }
+            })
+          : []
+
+      setTokensData(formattedData)
     } catch (e) {
       console.log(e)
     }
-    // if (!queryTokensData24h) return
-
-    // const formattedData = queryTokensData24h.tokens.map((token) => {
-    //   return {
-    //     id: token.id,
-    //     name: token.name,
-    //     symbol: token.symbol,
-    //     totalValueLockedUSD: token.totalValueLockedUSD,
-    //     derivedETH: token.derivedETH,
-    //   }
-    // })
-    // setTokensData(formattedData)
   }
   return {
     tokensData,

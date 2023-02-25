@@ -49,8 +49,6 @@ export default () => {
           idIn: ids,
         },
       })
-      console.log("queryPoolsData: ", queryPoolsData)
-      console.log("queryPoolsData24h: ", queryPoolsData24h)
 
       const formattedData =
         queryPoolsData && queryPoolsData24h

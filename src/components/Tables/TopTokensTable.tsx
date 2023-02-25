@@ -16,10 +16,14 @@ const TokenDescriptionCell = ({ name, symbol }: { name: string; symbol: string }
   )
 }
 
-const emptyData: any[] = []
+const TokenPriceChangeCell = ({ priceChange }: { priceChange: number }) => {
+  const rounded = Math.round(priceChange * 100) / 100
+  const className = rounded >= 0 ? " text-green-text text-right" : " text-red-text text-right"
+  return <p className={className}>{rounded}%</p>
+}
 
 const TopTokensTable = () => {
-  const { tokensData, ethPriceUsd } = useContext(AppContext)
+  const { tokensData } = useContext(AppContext)
 
   const data = useMemo(() => {
     return tokensData.map((token, i) => {
@@ -46,27 +50,37 @@ const TopTokensTable = () => {
           return <TokenDescriptionCell name={value} symbol={symbol} />
         },
         accessor: "name",
+        disableSortBy: true,
       },
       {
         Header: () => <TableHeaderText headerTitle="Price" />,
-        Cell: ({ value }: { value: number }) => (
-          <TableCellText cellText={ethPriceUsd ? formatDollar(value * ethPriceUsd) : ""} />
-        ),
-        accessor: "derivedETH",
+        Cell: ({ value }: { value: number }) => <TableCellText cellText={formatDollar(value)} />,
+        accessor: "price",
+      },
+      {
+        Header: () => <TableHeaderText headerTitle="Price Change" />,
+        Cell: ({ value }: { value: number }) => <TokenPriceChangeCell priceChange={value} />,
+        accessor: "priceChange",
+        sortType: "basic",
+      },
+      {
+        Header: () => <TableHeaderText headerTitle="Volume 24H" />,
+        Cell: ({ value }: { value: number }) => <TableCellText cellText={formatDollar(value)} />,
+        accessor: "volume24h",
       },
       {
         Header: () => <TableHeaderText headerTitle="TVL" />,
         Cell: ({ value }: { value: number }) => <TableCellText cellText={formatDollar(value)} />,
-        accessor: "totalValueLockedUSD",
+        accessor: "tvl",
       },
     ],
-    [ethPriceUsd]
+    []
   )
 
   const tableInstance = useTable(
     {
       columns,
-      data: emptyData,
+      data: data,
       initialState: {
         pageSize: 10,
       },

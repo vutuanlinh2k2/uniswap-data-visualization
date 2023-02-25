@@ -35,3 +35,7 @@ export const formatNumber = (num: number | undefined, digits = 2, round = true) 
     },
   })
 }
+
+export const roundedSmallFloat = (num: number): number => {
+  return Math.round((num + Number.EPSILON) * 1000000000000) / 1000000000000
+}
