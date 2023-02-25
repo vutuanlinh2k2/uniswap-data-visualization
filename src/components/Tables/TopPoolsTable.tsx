@@ -28,7 +28,7 @@ const PoolDescriptionCell = ({
 }
 
 const TopPoolsTable = () => {
-  const { poolsData } = useContext(AppContext)
+  const { poolsData, isLoadingPools, isErrorPools } = useContext(AppContext)
 
   const data = useMemo(() => {
     return poolsData.map((token, i) => {
@@ -84,7 +84,13 @@ const TopPoolsTable = () => {
     usePagination
   )
 
-  return <TableTemplate tableInstance={tableInstance} />
+  return (
+    <TableTemplate
+      tableInstance={tableInstance}
+      isLoading={isLoadingPools}
+      isError={isErrorPools}
+    />
+  )
 }
 
 export default TopPoolsTable

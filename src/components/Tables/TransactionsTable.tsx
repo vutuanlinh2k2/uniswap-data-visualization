@@ -57,7 +57,7 @@ const TransactionFilter: React.FC<{ column: ColumnInstance }> = ({
 }
 
 const TransactionsTable = () => {
-  const { transactionsData } = useContext(AppContext)
+  const { transactionsData, isTransactionsLoading, isTransactionsError } = useContext(AppContext)
 
   const columns = useMemo<ReadonlyArray<Column>>(
     () => [
@@ -139,7 +139,13 @@ const TransactionsTable = () => {
     usePagination
   )
 
-  return <TableTemplate tableInstance={tableInstance} />
+  return (
+    <TableTemplate
+      tableInstance={tableInstance}
+      isLoading={isTransactionsLoading}
+      isError={isTransactionsError}
+    />
+  )
 }
 
 export default TransactionsTable

@@ -33,4 +33,10 @@ export interface AppContextType {
   tokensData: TokenData[]
   poolsData: PoolData[]
   transactionsData: TransactionData[]
+  isLoadingTokens: boolean
+  isErrorTokens: boolean
+  isLoadingPools: boolean
+  isErrorPools: boolean
+  isTransactionsLoading: boolean
+  isTransactionsError: boolean
 }

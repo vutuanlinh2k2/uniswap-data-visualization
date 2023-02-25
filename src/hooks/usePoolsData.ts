@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { useLazyQuery } from "@apollo/client"
 
 import { AppContextType } from "../types/types"
@@ -9,46 +9,53 @@ import { getBlocksQueryDocument } from "../utils/ethereumBlocks"
 
 export default () => {
   const [poolsData, setPoolsData] = useState<AppContextType["poolsData"]>([])
+  const [isLoadingPools, setIsLoadingPools] = useState(false)
+  const [isErrorPools, setIsErrorPools] = useState(false)
 
   const unix24h = getUnix24h()
   const blocksQueryDocument = getBlocksQueryDocument(unix24h)
 
   const [getBlocksQuery] = useLazyQuery(blocksQueryDocument, {
     client: EthereumBlocksClient,
-    fetchPolicy: "network-only",
+    // fetchPolicy: "network-only",
   })
 
   const [getTopPoolsQuery] = useLazyQuery(GetTopPoolsDocument, {
     client: UniswapV3Client,
-    fetchPolicy: "no-cache",
+    // fetchPolicy: "network-only",
   })
 
   const [getPoolsQuery] = useLazyQuery(GetPoolsDataDocument, {
     client: UniswapV3Client,
-    fetchPolicy: "no-cache",
+    // fetchPolicy: "network-only",
   })
 
-  const fetchPoolsData = async () => {
+  const fetchPoolsData = useCallback(async () => {
+    setIsLoadingPools(true)
     try {
-      const { data: queryTopPoolsData } = await getTopPoolsQuery()
+      const { data: queryTopPoolsData, error: queryTopPoolsError } = await getTopPoolsQuery()
       const ids = queryTopPoolsData?.pools.map((pool) => {
         return pool.id
       })
-      const { data: queryBlocksData } = await getBlocksQuery()
+      const { data: queryBlocksData, error: queryBlocksError } = await getBlocksQuery()
       const blockNumber = parseInt(queryBlocksData[`t${unix24h}`][0].number)
 
-      const { data: queryPoolsData24h } = await getPoolsQuery({
+      const { data: queryPoolsData24h, error: queryPools24hError } = await getPoolsQuery({
         variables: {
           idIn: ids,
           block: { number: blockNumber },
         },
       })
 
-      const { data: queryPoolsData } = await getPoolsQuery({
+      const { data: queryPoolsData, error: queryPoolsError } = await getPoolsQuery({
         variables: {
           idIn: ids,
         },
       })
+
+      const isError =
+        !!queryTopPoolsError || !!queryBlocksError || !!queryPoolsError || !!queryPools24hError
+      setIsErrorPools(isError)
 
       const formattedData =
         queryPoolsData && queryPoolsData24h
@@ -68,11 +75,15 @@ export default () => {
           : []
       setPoolsData(formattedData)
     } catch (e) {
-      console.log(e)
+      console.warn(e)
     }
-  }
+    setIsLoadingPools(false)
+  }, [getTopPoolsQuery, getBlocksQuery, getPoolsQuery])
+
   return {
     poolsData,
     fetchPoolsData,
+    isLoadingPools,
+    isErrorPools,
   }
 }

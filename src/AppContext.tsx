@@ -1,4 +1,4 @@
-import React, { useEffect, createContext } from "react"
+import React, { useEffect, useCallback, createContext } from "react"
 
 import useTokensData from "./hooks/useTokensData"
 import usePoolsData from "./hooks/usePoolsData"
@@ -9,6 +9,12 @@ export const AppContext = createContext<AppContextType>({
   tokensData: [],
   poolsData: [],
   transactionsData: [],
+  isLoadingTokens: false,
+  isErrorTokens: false,
+  isLoadingPools: false,
+  isErrorPools: false,
+  isTransactionsLoading: false,
+  isTransactionsError: false,
 })
 
 interface AppContextProviderProps {
@@ -16,22 +22,35 @@ interface AppContextProviderProps {
 }
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  const { tokensData, fetchTokensData } = useTokensData()
-  const { poolsData, fetchPoolsData } = usePoolsData()
-  const { transactionsData, fetchTransactionsData } = useTransactionsData()
+  const { tokensData, fetchTokensData, isLoadingTokens, isErrorTokens } = useTokensData()
+  const { poolsData, fetchPoolsData, isLoadingPools, isErrorPools } = usePoolsData()
+  const { transactionsData, fetchTransactionsData, isTransactionsLoading, isTransactionsError } =
+    useTransactionsData()
 
-  const fetchData = () => {
-    fetchTokensData()
-    fetchPoolsData()
-    fetchTransactionsData()
-  }
+  const fetchData = useCallback(async () => {
+    await fetchTokensData()
+    await fetchPoolsData()
+    await fetchTransactionsData()
+  }, [fetchTokensData, fetchPoolsData, fetchTransactionsData])
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [fetchData])
 
   return (
-    <AppContext.Provider value={{ tokensData, poolsData, transactionsData }}>
+    <AppContext.Provider
+      value={{
+        tokensData,
+        poolsData,
+        transactionsData,
+        isLoadingTokens,
+        isErrorTokens,
+        isLoadingPools,
+        isErrorPools,
+        isTransactionsLoading,
+        isTransactionsError,
+      }}
+    >
       {children}
     </AppContext.Provider>
   )

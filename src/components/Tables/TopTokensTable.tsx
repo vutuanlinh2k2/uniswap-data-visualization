@@ -23,7 +23,7 @@ const TokenPriceChangeCell = ({ priceChange }: { priceChange: number }) => {
 }
 
 const TopTokensTable = () => {
-  const { tokensData } = useContext(AppContext)
+  const { tokensData, isLoadingTokens, isErrorTokens } = useContext(AppContext)
 
   const data = useMemo(() => {
     return tokensData.map((token, i) => {
@@ -88,7 +88,13 @@ const TopTokensTable = () => {
     useSortBy,
     usePagination
   )
-  return <TableTemplate tableInstance={tableInstance} />
+  return (
+    <TableTemplate
+      tableInstance={tableInstance}
+      isLoading={isLoadingTokens}
+      isError={isErrorTokens}
+    />
+  )
 }
 
 export default TopTokensTable

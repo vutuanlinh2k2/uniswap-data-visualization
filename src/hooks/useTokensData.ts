@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { useLazyQuery } from "@apollo/client"
 
 import { AppContextType } from "../types/types"
@@ -14,61 +14,68 @@ import { getBlocksQueryDocument } from "../utils/ethereumBlocks"
 
 export default () => {
   const [tokensData, setTokensData] = useState<AppContextType["tokensData"]>([])
+  const [isLoadingTokens, setIsLoadingTokens] = useState(false)
+  const [isErrorTokens, setIsErrorTokens] = useState(false)
 
   const unix24h = getUnix24h()
   const blocksQueryDocument = getBlocksQueryDocument(unix24h)
 
   const [getBlocksQuery] = useLazyQuery(blocksQueryDocument, {
     client: EthereumBlocksClient,
-    fetchPolicy: "network-only",
+    // fetchPolicy: "network-only",
   })
 
   const [getTopTokensQuery] = useLazyQuery(GetTopTokensDocument, {
     client: UniswapV3Client,
-    fetchPolicy: "network-only",
+    // fetchPolicy: "network-only",
   })
 
   const [getTokensQuery] = useLazyQuery(GetTokensDataDocument, {
     client: UniswapV3Client,
-    fetchPolicy: "network-only",
+    // fetchPolicy: "network-only",
   })
 
   const [getEthPrice] = useLazyQuery(GetEthPriceDocument, {
     client: UniswapV3Client,
-    fetchPolicy: "network-only",
+    // fetchPolicy: "network-only",
   })
 
-  const fetchTokensData = async () => {
+  const fetchTokensData = useCallback(async () => {
+    setIsLoadingTokens(true)
     try {
-      const { data: queryTopTokenData } = await getTopTokensQuery()
-      const ids = queryTopTokenData?.tokens.map((token) => {
+      const { data: queryTopTokensData, error: queryTopTokenError } = await getTopTokensQuery()
+      const ids = queryTopTokensData?.tokens.map((token) => {
         return token.id
       })
-      const { data: queryBlocksData } = await getBlocksQuery()
+      const { data: queryBlocksData, error: queryBlocksError } = await getBlocksQuery()
       const blockNumber = parseInt(queryBlocksData[`t${unix24h}`][0].number)
 
-      const { data: queryTokensData } = await getTokensQuery({
+      const { data: queryTokensData, error: queryTokensError } = await getTokensQuery({
         variables: {
           idIn: ids,
         },
       })
 
-      const { data: queryTokensData24h } = await getTokensQuery({
+      const { data: queryTokensData24h, error: queryTokens24hError } = await getTokensQuery({
         variables: {
           idIn: ids,
           block: { number: blockNumber },
         },
       })
 
-      const { data: queryEthPrice } = await getEthPrice({
+      const { data: queryEthPrice, error: queryEthPriceError } = await getEthPrice({
         variables: {
           block24: blockNumber,
         },
       })
 
-      console.log("queryTokensData :", queryTokensData)
-      console.log("queryTokensData24h: ", queryTokensData24h)
-      console.log("queryEthPrice: ", queryEthPrice)
+      const isError =
+        !!queryTopTokenError ||
+        !!queryBlocksError ||
+        !!queryTokensError ||
+        !!queryTokens24hError ||
+        !!queryEthPriceError
+      setIsErrorTokens(isError)
 
       const formattedData =
         queryTokensData && queryTokensData24h && queryEthPrice
@@ -93,14 +100,18 @@ export default () => {
               }
             })
           : []
-
       setTokensData(formattedData)
     } catch (e) {
-      console.log(e)
+      console.warn(e)
     }
-  }
+    setIsLoadingTokens(false)
+  }, [getTopTokensQuery, getBlocksQuery, getTokensQuery, getEthPrice])
+  // , [])
+
   return {
     tokensData,
     fetchTokensData,
+    isLoadingTokens,
+    isErrorTokens,
   }
 }
