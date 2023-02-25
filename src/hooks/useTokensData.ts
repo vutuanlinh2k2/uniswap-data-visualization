@@ -7,15 +7,12 @@ import {
   GetTokensDataDocument,
   GetEthPriceDocument,
 } from "../generate/uniswap-v3/graphql"
+import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
 import { getUnix24h } from "../utils/time"
 import { roundedSmallFloat } from "../utils/numbers"
-import { getBlocksQueryDocument } from "../utils/ethereumBlocks"
 
 export default () => {
-  const unix24h = getUnix24h()
-  const blocksQueryDocument = getBlocksQueryDocument(unix24h)
-
-  const [getBlocksQuery] = useLazyQuery(blocksQueryDocument, {
+  const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {
     client: EthereumBlocksClient,
   })
 
@@ -28,8 +25,14 @@ export default () => {
     const ids = queryTopTokensData?.tokens.map((token) => {
       return token.id
     })
-    const { data: queryBlocksData, error: queryBlocksError } = await getBlocksQuery()
-    const blockNumber = parseInt(queryBlocksData[`t${unix24h}`][0].number)
+    const unix24h = getUnix24h()
+    const { data: queryBlocksData, error: queryBlocksError } = await getBlocksQuery({
+      variables: {
+        timestamp_gt: unix24h,
+        timestamp_lt: unix24h + 600,
+      },
+    })
+    const blockNumber = parseInt(queryBlocksData?.blocks[0].number)
 
     const { data: queryTokensData, error: queryTokensError } = await getTokensQuery({
       variables: {

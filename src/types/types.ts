@@ -39,4 +39,5 @@ export interface AppContextType {
   isErrorPools: boolean
   isTransactionsLoading: boolean
   isTransactionsError: boolean
+  fetchAppData: Function | null
 }

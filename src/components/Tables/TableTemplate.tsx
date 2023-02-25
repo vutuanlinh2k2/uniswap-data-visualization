@@ -11,7 +11,7 @@ export interface TableProps {
 }
 
 const TableWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <div className="pt-1 pb-4 px-4 my-4 bg-primary rounded-2xl">{children}</div>
+  return <div className="p-4 my-4 bg-primary rounded-2xl">{children}</div>
 }
 
 const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError }) => {
@@ -86,7 +86,7 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError
                           : "border-b border-secondary"
                       }
                     >
-                      <div className="flex items-center py-3">
+                      <div className="flex items-center pb-3">
                         {column.render("Header")}
                         <span className="mr-1">
                           {column.isSorted ? (

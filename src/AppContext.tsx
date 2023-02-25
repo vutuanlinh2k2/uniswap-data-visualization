@@ -15,6 +15,7 @@ export const AppContext = createContext<AppContextType>({
   isErrorPools: false,
   isTransactionsLoading: false,
   isTransactionsError: false,
+  fetchAppData: null,
 })
 
 interface AppContextProviderProps {
@@ -82,6 +83,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         isErrorPools,
         isTransactionsLoading,
         isTransactionsError,
+        fetchAppData,
       }}
     >
       {children}

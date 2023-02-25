@@ -355,10 +355,19 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
+export type GetBlocksQueryVariables = Exact<{
+  timestamp_gt: Scalars['BigInt'];
+  timestamp_lt: Scalars['BigInt'];
+}>;
+
+
+export type GetBlocksQuery = { __typename?: 'Query', blocks: Array<{ __typename?: 'Block', number: any }> };
+
 export type TestGetBlocksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type TestGetBlocksQuery = { __typename?: 'Query', blocks: Array<{ __typename?: 'Block', id: string, number: any }> };
 
 
+export const GetBlocksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getBlocks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"timestamp_gt"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BigInt"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"timestamp_lt"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BigInt"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blocks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"timestamp"}},{"kind":"Argument","name":{"kind":"Name","value":"orderDirection"},"value":{"kind":"EnumValue","value":"desc"}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"timestamp_gt"},"value":{"kind":"Variable","name":{"kind":"Name","value":"timestamp_gt"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"timestamp_lt"},"value":{"kind":"Variable","name":{"kind":"Name","value":"timestamp_lt"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"number"}}]}}]}}]} as unknown as DocumentNode<GetBlocksQuery, GetBlocksQueryVariables>;
 export const TestGetBlocksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"testGetBlocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blocks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"100"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}}]}}]}}]} as unknown as DocumentNode<TestGetBlocksQuery, TestGetBlocksQueryVariables>;

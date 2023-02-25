@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "query getBlocks($timestamp_gt: BigInt!, $timestamp_lt: BigInt!) {\n  blocks(\n    first: 1\n    orderBy: timestamp\n    orderDirection: desc\n    where: {timestamp_gt: $timestamp_gt, timestamp_lt: $timestamp_lt}\n  ) {\n    number\n  }\n}": types.GetBlocksDocument,
     "query testGetBlocks {\n  blocks(first: 100) {\n    id\n    number\n  }\n}": types.TestGetBlocksDocument,
 };
 
@@ -30,6 +31,10 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "query getBlocks($timestamp_gt: BigInt!, $timestamp_lt: BigInt!) {\n  blocks(\n    first: 1\n    orderBy: timestamp\n    orderDirection: desc\n    where: {timestamp_gt: $timestamp_gt, timestamp_lt: $timestamp_lt}\n  ) {\n    number\n  }\n}"): (typeof documents)["query getBlocks($timestamp_gt: BigInt!, $timestamp_lt: BigInt!) {\n  blocks(\n    first: 1\n    orderBy: timestamp\n    orderDirection: desc\n    where: {timestamp_gt: $timestamp_gt, timestamp_lt: $timestamp_lt}\n  ) {\n    number\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

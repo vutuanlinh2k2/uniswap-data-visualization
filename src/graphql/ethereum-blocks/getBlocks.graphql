@@ -1,0 +1,10 @@
+query getBlocks($timestamp_gt: BigInt!, $timestamp_lt: BigInt!) {
+  blocks(
+    first: 1
+    orderBy: timestamp
+    orderDirection: desc
+    where: { timestamp_gt: $timestamp_gt, timestamp_lt: $timestamp_lt + 600 }
+  ) {
+    number
+  }
+}

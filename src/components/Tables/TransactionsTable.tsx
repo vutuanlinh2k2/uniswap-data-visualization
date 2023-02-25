@@ -58,7 +58,6 @@ const TransactionFilter: React.FC<{ column: ColumnInstance }> = ({
 
 const TransactionsTable = () => {
   const { transactionsData, isTransactionsLoading, isTransactionsError } = useContext(AppContext)
-  console.log("isTransactionsLoading :", isTransactionsLoading)
 
   const columns = useMemo<ReadonlyArray<Column>>(
     () => [
