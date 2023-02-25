@@ -2,7 +2,7 @@ import { useState, useCallback } from "react"
 import { useLazyQuery } from "@apollo/client"
 
 import { AppContextType } from "../types/types"
-import { UniswapV3Client, EthereumBlocksClient } from "../apollo"
+import { EthereumBlocksClient } from "../apollo"
 import { GetTopPoolsDocument, GetPoolsDataDocument } from "../generate/uniswap-v3/graphql"
 import { getUnix24h } from "../utils/time"
 import { getBlocksQueryDocument } from "../utils/ethereumBlocks"
@@ -20,15 +20,8 @@ export default () => {
     // fetchPolicy: "network-only",
   })
 
-  const [getTopPoolsQuery] = useLazyQuery(GetTopPoolsDocument, {
-    client: UniswapV3Client,
-    // fetchPolicy: "network-only",
-  })
-
-  const [getPoolsQuery] = useLazyQuery(GetPoolsDataDocument, {
-    client: UniswapV3Client,
-    // fetchPolicy: "network-only",
-  })
+  const [getTopPoolsQuery] = useLazyQuery(GetTopPoolsDocument)
+  const [getPoolsQuery] = useLazyQuery(GetPoolsDataDocument)
 
   const fetchPoolsData = useCallback(async () => {
     setIsLoadingPools(true)

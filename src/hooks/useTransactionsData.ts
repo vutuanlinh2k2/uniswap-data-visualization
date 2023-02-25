@@ -10,10 +10,7 @@ export default () => {
   const [isTransactionsLoading, setIsTransactionsLoading] = useState(false)
   const [isTransactionsError, setIsTransactionsError] = useState(false)
 
-  const [getTransactionsQuery] = useLazyQuery(GetTransactionsDataDocument, {
-    client: UniswapV3Client,
-    // fetchPolicy: "network-only",
-  })
+  const [getTransactionsQuery] = useLazyQuery(GetTransactionsDataDocument)
 
   const fetchTransactionsData = useCallback(async () => {
     setIsTransactionsLoading(true)

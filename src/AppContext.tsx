@@ -28,9 +28,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     useTransactionsData()
 
   const fetchData = useCallback(async () => {
-    await fetchTokensData()
-    await fetchPoolsData()
-    await fetchTransactionsData()
+    await Promise.all([fetchTokensData(), fetchPoolsData(), fetchTransactionsData()])
   }, [fetchTokensData, fetchPoolsData, fetchTransactionsData])
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { useState, useCallback } from "react"
 import { useLazyQuery } from "@apollo/client"
 
 import { AppContextType } from "../types/types"
-import { UniswapV3Client, EthereumBlocksClient } from "../apollo"
+import { EthereumBlocksClient } from "../apollo"
 import {
   GetTopTokensDocument,
   GetTokensDataDocument,
@@ -25,20 +25,9 @@ export default () => {
     // fetchPolicy: "network-only",
   })
 
-  const [getTopTokensQuery] = useLazyQuery(GetTopTokensDocument, {
-    client: UniswapV3Client,
-    // fetchPolicy: "network-only",
-  })
-
-  const [getTokensQuery] = useLazyQuery(GetTokensDataDocument, {
-    client: UniswapV3Client,
-    // fetchPolicy: "network-only",
-  })
-
-  const [getEthPrice] = useLazyQuery(GetEthPriceDocument, {
-    client: UniswapV3Client,
-    // fetchPolicy: "network-only",
-  })
+  const [getTopTokensQuery] = useLazyQuery(GetTopTokensDocument)
+  const [getTokensQuery] = useLazyQuery(GetTokensDataDocument)
+  const [getEthPrice] = useLazyQuery(GetEthPriceDocument)
 
   const fetchTokensData = useCallback(async () => {
     setIsLoadingTokens(true)
