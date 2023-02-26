@@ -29,14 +29,6 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError
     pageCount,
   } = tableInstance
 
-  if (isError) {
-    return (
-      <TableWrapper>
-        <p className="text-center">There was an error when fetching the data</p>
-      </TableWrapper>
-    )
-  }
-
   if (isLoading) {
     return (
       <TableWrapper>
@@ -63,6 +55,14 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError
             duration={2.5}
           />
         </div>
+      </TableWrapper>
+    )
+  }
+
+  if (isError) {
+    return (
+      <TableWrapper>
+        <p className="text-center">There was an error when fetching the data</p>
       </TableWrapper>
     )
   }

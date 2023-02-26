@@ -8,8 +8,7 @@ import {
   GetEthPriceDocument,
 } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
-import { getUnix24h } from "../utils/time"
-import { roundedSmallFloat } from "../utils/number"
+import { getUnix24h, roundedSmallFloat, mappingData } from "../utils"
 
 export default () => {
   const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {
@@ -60,32 +59,44 @@ export default () => {
       !!queryTokens24hError ||
       !!queryEthPriceError
 
-    const data =
-      queryTokensData && queryTokensData24h && queryEthPrice
-        ? queryTokensData?.tokens.map((token, i) => {
-            const tokenPrice =
-              parseFloat(token.derivedETH) * parseFloat(queryEthPrice?.current[0].ethPriceUSD)
-            const tokenPrice24h =
-              parseFloat(queryTokensData24h?.tokens[i].derivedETH) *
-              parseFloat(queryEthPrice?.oneDay[0].ethPriceUSD)
-            const priceChange = 100 * ((tokenPrice - tokenPrice24h) / tokenPrice24h)
+    if (
+      isError ||
+      !queryTopTokensData ||
+      !queryBlocksData ||
+      !queryTokensData ||
+      !queryTokensData24h ||
+      !queryEthPrice
+    ) {
+      return {
+        data: [],
+        isError,
+      }
+    }
 
-            return {
-              address: token.id,
-              name: token.name,
-              symbol: token.symbol,
-              tvl: token.totalValueLockedUSD,
-              price: roundedSmallFloat(tokenPrice),
-              priceChange: roundedSmallFloat(priceChange),
-              volume24h: Math.abs(
-                parseFloat(token.volumeUSD) - parseFloat(queryTokensData24h?.tokens[i].volumeUSD)
-              ),
-            }
-          })
-        : []
+    const mappingTokensData = mappingData(queryTokensData.tokens, queryTokensData24h.tokens)
+
+    const formattedData = Object.values(mappingTokensData).map((token) => {
+      const priceCurrent =
+        parseFloat(token?.current?.derivedETH) * parseFloat(queryEthPrice?.current[0].ethPriceUSD)
+      const price24h =
+        parseFloat(token?.oneDay?.derivedETH) * parseFloat(queryEthPrice?.oneDay[0].ethPriceUSD)
+      const priceChange = 100 * ((priceCurrent - price24h) / price24h)
+
+      return {
+        address: token?.current?.id,
+        name: token?.current?.name,
+        symbol: token?.current?.symbol,
+        tvl: token?.current?.totalValueLockedUSD,
+        price: roundedSmallFloat(priceCurrent),
+        priceChange: priceChange,
+        volume24h: Math.abs(
+          parseFloat(token?.current?.volumeUSD) - parseFloat(token?.oneDay?.volumeUSD)
+        ),
+      }
+    })
 
     return {
-      data: isError ? [] : data,
+      data: formattedData,
       isError,
     }
   }, [getTopTokensQuery, getBlocksQuery, getTokensQuery, getEthPrice])

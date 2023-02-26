@@ -1,22 +1,22 @@
 export interface TokenData {
-  address: string
-  name: string
-  symbol: string
-  tvl: number
-  price: number
-  priceChange: number
-  volume24h: number
+  address: string | undefined
+  name: string | undefined
+  symbol: string | undefined
+  tvl: number | undefined
+  price: number | undefined
+  priceChange: number | undefined
+  volume24h: number | undefined
 }
 
 export interface PoolData {
-  id: string
-  token0Symbol: string
-  token1Symbol: string
-  token0Address: string
-  token1Address: string
-  feeTier: number
-  tvl: number
-  volume24h: number
+  id: string | undefined
+  token0Symbol: string | undefined
+  token1Symbol: string | undefined
+  token0Address: string | undefined
+  token1Address: string | undefined
+  feeTier: number | undefined
+  tvl: number | undefined
+  volume24h: number | undefined
 }
 
 export interface TransactionData {

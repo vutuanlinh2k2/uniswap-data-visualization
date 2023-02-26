@@ -77,7 +77,7 @@ const TopPoolsTable = () => {
         accessor: "tvl",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Volume (24h)" />,
+        Header: () => <TableHeaderText headerTitle="Volume 24H" />,
         Cell: ({ value }: { value: number }) => <TableCellText cellText={formatDollar(value)} />,
         accessor: "volume24h",
       },

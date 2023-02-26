@@ -4,7 +4,7 @@ import { useLazyQuery } from "@apollo/client"
 import { EthereumBlocksClient } from "../apollo"
 import { GetTopPoolsDocument, GetPoolsDataDocument } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
-import { getUnix24h } from "../utils/time"
+import { getUnix24h, mappingData } from "../utils"
 
 export default () => {
   const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {
@@ -29,6 +29,12 @@ export default () => {
     })
     const blockNumber = parseInt(queryBlocksData?.blocks[0].number)
 
+    const { data: queryPoolsData, error: queryPoolsError } = await getPoolsQuery({
+      variables: {
+        idIn: ids,
+      },
+    })
+
     const { data: queryPoolsData24h, error: queryPools24hError } = await getPoolsQuery({
       variables: {
         idIn: ids,
@@ -36,36 +42,42 @@ export default () => {
       },
     })
 
-    const { data: queryPoolsData, error: queryPoolsError } = await getPoolsQuery({
-      variables: {
-        idIn: ids,
-      },
-    })
-
     const isError =
       !!queryTopPoolsError || !!queryBlocksError || !!queryPoolsError || !!queryPools24hError
 
-    const data =
-      queryPoolsData && queryPoolsData24h
-        ? queryPoolsData?.pools.map((pool, i) => {
-            return {
-              id: pool.id,
-              token0Symbol: pool.token0.symbol,
-              token1Symbol: pool.token1.symbol,
-              token0Address: pool.token0.id,
-              token1Address: pool.token1.id,
-              feeTier: parseInt(pool.feeTier),
-              tvl: parseFloat(pool.totalValueLockedUSD),
-              volume24h: Math.abs(
-                parseFloat(pool.totalValueLockedUSD) -
-                  parseFloat(queryPoolsData24h?.pools[i].totalValueLockedUSD)
-              ),
-            }
-          })
-        : []
+    if (
+      isError ||
+      !queryTopPoolsData ||
+      !queryBlocksData ||
+      !queryPoolsData ||
+      !queryPoolsData24h
+    ) {
+      return {
+        data: [],
+        isError,
+      }
+    }
+
+    const mappingPoolsData = mappingData(queryPoolsData.pools, queryPoolsData24h.pools)
+    console.log("mappingPoolsData :", mappingPoolsData)
+
+    const formattedData = Object.values(mappingPoolsData).map((pool) => {
+      return {
+        id: pool?.current?.id,
+        token0Symbol: pool?.current?.token0?.symbol,
+        token1Symbol: pool?.current?.token1?.symbol,
+        token0Address: pool?.current?.token0?.id,
+        token1Address: pool?.current?.token1?.id,
+        feeTier: parseInt(pool?.current?.feeTier),
+        tvl: pool?.current?.totalValueLockedUSD,
+        volume24h: Math.abs(
+          parseFloat(pool?.current?.volumeUSD) - parseFloat(pool?.oneDay?.volumeUSD)
+        ),
+      }
+    })
 
     return {
-      data: isError ? [] : data,
+      data: formattedData,
       isError,
     }
   }, [getTopPoolsQuery, getPoolsQuery])

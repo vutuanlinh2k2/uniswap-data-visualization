@@ -1,6 +1,0 @@
-query testGetBlocks {
-  blocks(first: 100) {
-    id
-    number
-  }
-}
