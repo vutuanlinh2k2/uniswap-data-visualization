@@ -4,12 +4,21 @@ import { Column, usePagination, useSortBy, useTable } from "react-table"
 import { AppContext } from "../../AppContext"
 import TableTemplate from "./TableTemplate"
 import { TableHeaderText, TableCellText } from "./TableText"
+import CryptoIcon from "./CryptoIcon"
 import { formatDollar } from "../../utils/numbers"
 
-const TokenDescriptionCell = ({ name, symbol }: { name: string; symbol: string }) => {
+const TokenDescriptionCell = ({
+  name,
+  address,
+  symbol,
+}: {
+  name: string
+  address: string
+  symbol: string
+}) => {
   return (
     <div className="flex items-center gap-2">
-      <div className="w-6 h-6 bg-white rounded-full" />
+      <CryptoIcon address={address} size={6} />
       <p>{name}</p>
       <p className="text-grey-secondary-text">({symbol})</p>
     </div>
@@ -46,10 +55,11 @@ const TopTokensTable = () => {
         Header: "Name",
         Cell: (args) => {
           const { value, row } = args
+          const name = row.original["name" as keyof typeof row.original]
           const symbol = row.original["symbol" as keyof typeof row.original]
-          return <TokenDescriptionCell name={value} symbol={symbol} />
+          return <TokenDescriptionCell name={name} address={value} symbol={symbol} />
         },
-        accessor: "name",
+        accessor: "address",
         disableSortBy: true,
       },
       {

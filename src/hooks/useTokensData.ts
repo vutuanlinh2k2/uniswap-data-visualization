@@ -71,7 +71,7 @@ export default () => {
             const priceChange = 100 * ((tokenPrice - tokenPrice24h) / tokenPrice24h)
 
             return {
-              id: token.id,
+              address: token.id,
               name: token.name,
               symbol: token.symbol,
               tvl: token.totalValueLockedUSD,

@@ -3,7 +3,7 @@ query getBlocks($timestamp_gt: BigInt!, $timestamp_lt: BigInt!) {
     first: 1
     orderBy: timestamp
     orderDirection: desc
-    where: { timestamp_gt: $timestamp_gt, timestamp_lt: $timestamp_lt + 600 }
+    where: { timestamp_gt: $timestamp_gt, timestamp_lt: $timestamp_lt }
   ) {
     number
   }

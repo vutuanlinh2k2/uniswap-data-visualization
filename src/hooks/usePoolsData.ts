@@ -7,7 +7,6 @@ import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
 import { getUnix24h } from "../utils/time"
 
 export default () => {
-
   const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {
     client: EthereumBlocksClient,
   })

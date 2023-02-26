@@ -40,7 +40,7 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError
   if (isLoading) {
     return (
       <TableWrapper>
-        <div className="flex flex-col gap-2.5 mt-2">
+        <div className="flex flex-col gap-2.5">
           <Skeleton
             baseColor="rgb(31, 33, 39)"
             highlightColor="rgb(25,27,31)"

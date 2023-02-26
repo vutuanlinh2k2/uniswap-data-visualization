@@ -1,5 +1,5 @@
 export interface TokenData {
-  id: string | number
+  address: string
   name: string
   symbol: string
   tvl: number
@@ -20,7 +20,7 @@ export interface PoolData {
 export interface TransactionData {
   hash: string | undefined
   timestamp: number | undefined
-  type: string
+  type: string | undefined
   token0: string | undefined
   token1: string | undefined
   totalValue: number | undefined
