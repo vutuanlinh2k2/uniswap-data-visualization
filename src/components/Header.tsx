@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from "react"
 import { FiRefreshCcw } from "react-icons/fi"
 
-import { AppContext } from "../../AppContext"
+import { AppContext } from "../AppContext"
 
 const Header = () => {
   const { fetchAppData, isLoadingTokens, isLoadingPools, isTransactionsLoading } =

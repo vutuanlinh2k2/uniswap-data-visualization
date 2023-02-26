@@ -2,10 +2,8 @@ import React, { useContext, useMemo } from "react"
 import { Column, usePagination, useSortBy, useTable } from "react-table"
 
 import { AppContext } from "../../AppContext"
-import TableTemplate from "./TableTemplate"
-import { TableHeaderText, TableCellText } from "./TableText"
-import CryptoIcon from "./CryptoIcon"
-import { formatDollar } from "../../utils/numbers"
+import { TableTemplate, TableHeaderText, TableCellText, CryptoIcon } from "../tableComponents"
+import { formatDollar } from "../../utils"
 
 const TokenDescriptionCell = ({
   name,

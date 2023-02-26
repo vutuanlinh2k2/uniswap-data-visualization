@@ -9,7 +9,7 @@ import {
 } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
 import { getUnix24h } from "../utils/time"
-import { roundedSmallFloat } from "../utils/numbers"
+import { roundedSmallFloat } from "../utils/number"
 
 export default () => {
   const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {

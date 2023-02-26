@@ -2,13 +2,34 @@ import React, { useContext, useMemo } from "react"
 import { Column, usePagination, useSortBy, useTable, useFilters, ColumnInstance } from "react-table"
 
 import { AppContext } from "../../AppContext"
-import TableTemplate from "./TableTemplate"
-import { TableHeaderText, TableCellText } from "./TableText"
-import { formatDollar, formatNumber } from "../../utils/numbers"
-import { getTimeSinceEpoch } from "../../utils/time"
-import { shortenHash } from "../../utils/shorten"
-import { getEtherscanTransaction, getEtherScanAccount } from "../../utils/etherscan"
-import { transactionFilterOptions } from "../../constants/transactions"
+import { TableTemplate, TableHeaderText, TableCellText } from "../tableComponents"
+import {
+  formatDollar,
+  formatNumber,
+  getTimeSinceEpoch,
+  shortenHash,
+  getEtherscanTransaction,
+  getEtherScanAccount,
+} from "../../utils"
+
+const transactionFilterOptions = [
+  {
+    value: undefined,
+    text: "All",
+  },
+  {
+    value: "swap",
+    text: "Swaps",
+  },
+  {
+    value: "add",
+    text: "Adds",
+  },
+  {
+    value: "remove",
+    text: "Removes",
+  },
+]
 
 const TransactionDescriptionCell = ({
   type,
