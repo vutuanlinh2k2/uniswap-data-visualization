@@ -4,24 +4,29 @@ import { Column, usePagination, useSortBy, useTable } from "react-table"
 import { AppContext } from "../../AppContext"
 import TableTemplate from "./TableTemplate"
 import { TableHeaderText, TableCellText } from "./TableText"
+import CryptoIcon from "./CryptoIcon"
 import { formatDollar, formatNumber } from "../../utils/numbers"
 
 const PoolDescriptionCell = ({
-  token0,
-  token1,
+  token0Symbol,
+  token1Symbol,
+  token0Address,
+  token1Address,
   feeTier,
 }: {
-  token0: string
-  token1: string
+  token0Symbol: string
+  token1Symbol: string
+  token0Address: string
+  token1Address: string
   feeTier: number
 }) => {
   return (
     <div className="flex gap-2 items-center ">
       <div className="flex">
-        <div className="w-4 h-4 bg-white rounded-full" />
-        <div className="w-4 h-4 bg-white rounded-full" />
+        <CryptoIcon address={token0Address} size={4} />
+        <CryptoIcon address={token1Address} size={4} />
       </div>
-      <p>{`${token0}/${token1}`}</p>
+      <p>{`${token0Symbol}/${token1Symbol}`}</p>
       <p className="bg-grey-secondary-text px-1 py-0.5 rounded-lg">{feeTier / 10000}%</p>
     </div>
   )
@@ -51,9 +56,19 @@ const TopPoolsTable = () => {
         Header: "Pool",
         Cell: (args) => {
           const { value, row } = args
-          const token0 = row.original["token0" as keyof typeof row.original]
-          const token1 = row.original["token1" as keyof typeof row.original]
-          return <PoolDescriptionCell token0={token0} token1={token1} feeTier={value} />
+          const token0Symbol = row.original["token0Symbol" as keyof typeof row.original]
+          const token1Symbol = row.original["token1Symbol" as keyof typeof row.original]
+          const token0Address = row.original["token0Address" as keyof typeof row.original]
+          const token1Address = row.original["token1Address" as keyof typeof row.original]
+          return (
+            <PoolDescriptionCell
+              token0Symbol={token0Symbol}
+              token1Symbol={token1Symbol}
+              token0Address={token0Address}
+              token1Address={token1Address}
+              feeTier={value}
+            />
+          )
         },
         accessor: "feeTier",
         disableSortBy: true,

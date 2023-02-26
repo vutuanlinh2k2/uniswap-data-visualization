@@ -50,8 +50,10 @@ export default () => {
         ? queryPoolsData?.pools.map((pool, i) => {
             return {
               id: pool.id,
-              token0: pool.token0.symbol,
-              token1: pool.token1.symbol,
+              token0Symbol: pool.token0.symbol,
+              token1Symbol: pool.token1.symbol,
+              token0Address: pool.token0.id,
+              token1Address: pool.token1.id,
               feeTier: parseInt(pool.feeTier),
               tvl: parseFloat(pool.totalValueLockedUSD),
               volume24h: Math.abs(

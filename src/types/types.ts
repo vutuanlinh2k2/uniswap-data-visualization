@@ -10,8 +10,10 @@ export interface TokenData {
 
 export interface PoolData {
   id: string
-  token0: string
-  token1: string
+  token0Symbol: string
+  token1Symbol: string
+  token0Address: string
+  token1Address: string
   feeTier: number
   tvl: number
   volume24h: number
