@@ -53,13 +53,13 @@ const TransactionDescriptionCell = ({
 }
 
 const TokenAmountCell = ({ symbol, amount }: { symbol: string; amount: number }) => {
-  return <p className="text-right">{`${formatNumber(Math.abs(amount))} ${symbol}`}</p>
+  return <p className="text-right table-number">{`${formatNumber(Math.abs(amount))} ${symbol}`}</p>
 }
 
 const TransactionFilter: React.FC<{ column: ColumnInstance }> = ({
   column: { filterValue, setFilter },
 }) => {
-  const unselectedClassName = "text-grey-secondary-text"
+  const unselectedClassName = "text-grey-secondary"
   return (
     <div className="flex gap-3 cursor-pointer">
       {transactionFilterOptions.map((option, i) => (
@@ -99,7 +99,9 @@ const TransactionsTable = () => {
       },
       {
         Header: () => <TableHeaderText headerTitle="Total Value" />,
-        Cell: ({ value }: { value: number }) => <TableCellText cellText={formatDollar(value)} />,
+        Cell: ({ value }: { value: number }) => (
+          <TableCellText isNumber cellText={formatDollar(value)} />
+        ),
         accessor: "totalValue",
         disableFilters: true,
       },
@@ -126,7 +128,7 @@ const TransactionsTable = () => {
       {
         Header: () => <TableHeaderText headerTitle="Account" />,
         Cell: ({ value }: { value: string }) => (
-          <p className="text-right">
+          <p className="text-right table-number">
             <a href={getEtherScanAccount(value)} className="text-lg text-pink">
               {shortenHash(value)}
             </a>

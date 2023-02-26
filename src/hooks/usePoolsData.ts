@@ -59,7 +59,6 @@ export default () => {
     }
 
     const mappingPoolsData = mappingData(queryPoolsData.pools, queryPoolsData24h.pools)
-    console.log("mappingPoolsData :", mappingPoolsData)
 
     const formattedData = Object.values(mappingPoolsData).map((pool) => {
       return {

@@ -11,7 +11,7 @@ export interface TableProps {
 }
 
 const TableWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <div className="p-4 my-4 bg-primary rounded-2xl">{children}</div>
+  return <div className="p-3.5 my-4 bg-primary rounded-2xl">{children}</div>
 }
 
 const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError }) => {
@@ -70,7 +70,7 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError
   return (
     <TableWrapper>
       <table {...getTableProps()} className="w-full">
-        <thead className="text-grey-secondary-text">
+        <thead className="text-grey-secondary">
           {headerGroups.map((headerGroup, i) => {
             return (
               <tr {...headerGroup.getHeaderGroupProps()} key={i}>

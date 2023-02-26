@@ -25,7 +25,7 @@ const Header = () => {
     <header className="bg-primary flex justify-between items-center px-32 py-4">
       <div className="flex items-center gap-1.5">
         <img className="w-8 h-8" src="/UniswapLogo.png" />
-        <h2 className="text-white-text text-2xl">Uniswap Data Visualization</h2>
+        <h2 className="text-white text-2xl">Uniswap Data Visualization</h2>
       </div>
       <button
         disabled={isAppLoading}

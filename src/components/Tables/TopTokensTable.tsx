@@ -18,15 +18,16 @@ const TokenDescriptionCell = ({
     <div className="flex items-center gap-2">
       <CryptoIcon address={address} size={24} />
       <p>{name}</p>
-      <p className="text-grey-secondary-text">({symbol})</p>
+      <p className="text-grey-secondary">({symbol})</p>
     </div>
   )
 }
 
 const TokenPriceChangeCell = ({ priceChange }: { priceChange: number }) => {
   const rounded = Math.round(priceChange * 100) / 100
-  const className = rounded >= 0 ? " text-green-text text-right" : " text-red-text text-right"
-  return <p className={className}>{rounded}%</p>
+  const className =
+    rounded >= 0 ? "text-green text-right table-number" : "text-red text-right table-number"
+  return <p className={className}>{rounded === 0 ? "0.00" : rounded}%</p>
 }
 
 const TopTokensTable = () => {
@@ -45,7 +46,7 @@ const TopTokensTable = () => {
     () => [
       {
         Header: "#",
-        Cell: ({ value }: { value: number }) => <p>{value}</p>,
+        Cell: ({ value }: { value: number }) => <p className="table-number">{value}</p>,
         accessor: "id",
         disableSortBy: true,
       },
@@ -62,7 +63,9 @@ const TopTokensTable = () => {
       },
       {
         Header: () => <TableHeaderText headerTitle="Price" />,
-        Cell: ({ value }: { value: number }) => <TableCellText cellText={formatDollar(value)} />,
+        Cell: ({ value }: { value: number }) => (
+          <TableCellText isNumber cellText={formatDollar(value)} />
+        ),
         accessor: "price",
       },
       {
@@ -73,12 +76,16 @@ const TopTokensTable = () => {
       },
       {
         Header: () => <TableHeaderText headerTitle="Volume 24H" />,
-        Cell: ({ value }: { value: number }) => <TableCellText cellText={formatDollar(value)} />,
+        Cell: ({ value }: { value: number }) => (
+          <TableCellText isNumber cellText={formatDollar(value)} />
+        ),
         accessor: "volume24h",
       },
       {
         Header: () => <TableHeaderText headerTitle="TVL" />,
-        Cell: ({ value }: { value: number }) => <TableCellText cellText={formatDollar(value)} />,
+        Cell: ({ value }: { value: number }) => (
+          <TableCellText isNumber cellText={formatDollar(value)} />
+        ),
         accessor: "tvl",
       },
     ],

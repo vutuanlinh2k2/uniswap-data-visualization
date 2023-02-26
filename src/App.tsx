@@ -6,7 +6,7 @@ import { TopTokensTable, TopPoolsTable, TransactionsTable } from "./components/t
 const Section = ({ title, component }: { title: string; component: React.ReactNode }) => {
   return (
     <div>
-      <h2 className="text-grey-primary-text">{title}</h2>
+      <h2 className="text-grey-primary">{title}</h2>
       {component}
     </div>
   )

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  font-family: "Inter", sans-serif;
+}
+
 body {
   background-color: rgb(31, 33, 39);
 }
@@ -20,4 +24,8 @@ button {
 th {
   color: rgb(195, 197, 203) !important;
   font-weight: 400;
+}
+
+.table-number {
+  font-family: "Roboto Mono", monospace;
 }
