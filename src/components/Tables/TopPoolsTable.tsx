@@ -23,8 +23,8 @@ const PoolDescriptionCell = ({
   return (
     <div className="flex gap-2 items-center ">
       <div className="flex">
-        <CryptoIcon address={token0Address} size={4} />
-        <CryptoIcon address={token1Address} size={4} />
+        <CryptoIcon address={token0Address} size={18} />
+        <CryptoIcon address={token1Address} size={18} />
       </div>
       <p>{`${token0Symbol}/${token1Symbol}`}</p>
       <p className="bg-grey-secondary-text px-1 py-0.5 rounded-lg">{feeTier / 10000}%</p>

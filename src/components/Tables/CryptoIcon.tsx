@@ -33,9 +33,16 @@ const CryptoIcon = ({ address, size }: { address: string; size: number }) => {
   }, [imgSrc])
 
   return !imageExists ? (
-    <AiFillQuestionCircle size={size * 4} color="#ffffff" />
+    <AiFillQuestionCircle size={size} color="#ffffff" />
   ) : (
-    <img src={imgSrc} className={`w-${size} h-${size} rounded-full`} />
+    <img
+      src={imgSrc}
+      className="rounded-full"
+      style={{
+        width: size,
+        height: size,
+      }}
+    />
   )
 }
 

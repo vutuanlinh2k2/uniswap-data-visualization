@@ -18,7 +18,7 @@ const TokenDescriptionCell = ({
 }) => {
   return (
     <div className="flex items-center gap-2">
-      <CryptoIcon address={address} size={6} />
+      <CryptoIcon address={address} size={24} />
       <p>{name}</p>
       <p className="text-grey-secondary-text">({symbol})</p>
     </div>
