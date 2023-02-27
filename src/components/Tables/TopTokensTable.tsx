@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from "react"
 import { Column, usePagination, useSortBy, useTable } from "react-table"
+import { BsArrowUp, BsArrowDown } from "react-icons/bs"
 
 import { AppContext } from "../../AppContext"
 import { TableTemplate, TableHeaderText, TableCellText, CryptoIcon } from "../tableComponents"
@@ -25,9 +26,17 @@ const TokenDescriptionCell = ({
 
 const TokenPriceChangeCell = ({ priceChange }: { priceChange: number }) => {
   const rounded = Math.round(priceChange * 100) / 100
-  const className =
-    rounded >= 0 ? "text-green text-right table-number" : "text-red text-right table-number"
-  return <p className={className}>{rounded === 0 ? "0.00" : rounded}%</p>
+  const className = rounded >= 0 ? "text-green" : "text-red"
+  return (
+    <div className="flex items-center justify-end gap-0.5 table-number">
+      {rounded === 0 ? null : rounded > 0 ? (
+        <BsArrowUp className="text-green" />
+      ) : (
+        <BsArrowDown className="text-red" />
+      )}
+      <p className={className}>{rounded === 0 ? "0.00" : Math.abs(rounded)}%</p>
+    </div>
+  )
 }
 
 const TopTokensTable = () => {

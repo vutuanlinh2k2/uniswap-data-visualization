@@ -25,7 +25,9 @@ const PoolDescriptionCell = ({
         <CryptoIcon address={token1Address} size={18} />
       </div>
       <p>{`${token0Symbol}/${token1Symbol}`}</p>
-      <p className="bg-grey-tertiary px-1.5 py-0.5 rounded-lg table-number">{feeTier / 10000}%</p>
+      <p className="bg-grey-tertiary px-1.5 py-0.5 rounded-lg table-number text-sm">
+        {feeTier / 10000}%
+      </p>
     </div>
   )
 }
