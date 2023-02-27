@@ -9,7 +9,13 @@ import {
 } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
 import { TokenData } from "../types/types"
-import { getUnix24h, roundedSmallFloat, mappingData } from "../utils"
+import {
+  getUnix24h,
+  roundedSmallFloat,
+  mappingData,
+  formatTokenName,
+  formatTokenSymbol,
+} from "../utils"
 
 export default () => {
   const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {
@@ -83,10 +89,20 @@ export default () => {
         parseFloat(token?.oneDay?.derivedETH) * parseFloat(queryEthPrice?.oneDay[0].ethPriceUSD)
       const priceChange = 100 * ((priceCurrent - price24h) / price24h)
 
+      const formattedTokenName =
+        token?.current?.id && token?.current?.name
+          ? formatTokenName(token?.current?.name, token?.current?.id)
+          : "-"
+
+      const formattedTokenSymbol =
+        token?.current?.id && token?.current?.symbol
+          ? formatTokenSymbol(token?.current?.symbol, token?.current?.id)
+          : "-"
+
       return {
         address: token?.current?.id ?? "",
-        name: token?.current?.name ?? "-",
-        symbol: token?.current?.symbol ?? "-",
+        name: formattedTokenName,
+        symbol: formattedTokenSymbol,
         tvl: token?.current?.totalValueLockedUSD ?? 0,
         price: roundedSmallFloat(priceCurrent) ?? 0,
         priceChange: priceChange ?? 0,

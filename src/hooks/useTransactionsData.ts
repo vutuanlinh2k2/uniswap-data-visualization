@@ -3,7 +3,7 @@ import { useLazyQuery } from "@apollo/client"
 
 import { GetTransactionsDataDocument } from "../generate/uniswap-v3/graphql"
 import { TransactionData } from "../types/types"
-import { mappingData } from "../utils"
+import { mappingData, formatTokenSymbol } from "../utils"
 
 export default () => {
   const [getTransactionsQuery] = useLazyQuery(GetTransactionsDataDocument)
@@ -39,12 +39,28 @@ export default () => {
             ? currentTransaction?.burns[0]
             : currentTransaction?.swaps[0]
 
+        const formattedToken0Symbol =
+          transactionAdvancedData?.pool.token0.symbol && transactionAdvancedData?.pool.token0.id
+            ? formatTokenSymbol(
+                transactionAdvancedData?.pool.token0.symbol,
+                transactionAdvancedData?.pool.token0.id
+              )
+            : "-"
+
+        const formattedToken1Symbol =
+          transactionAdvancedData?.pool.token1.symbol && transactionAdvancedData?.pool.token1.id
+            ? formatTokenSymbol(
+                transactionAdvancedData?.pool.token1.symbol,
+                transactionAdvancedData?.pool.token1.id
+              )
+            : "-"
+
         return {
           hash: currentTransaction?.id ?? "",
           timestamp: currentTransaction?.timestamp,
           type: transactionType,
-          token0: transactionAdvancedData?.pool.token0.symbol ?? "-",
-          token1: transactionAdvancedData?.pool.token1.symbol ?? "-",
+          token0: formattedToken0Symbol,
+          token1: formattedToken1Symbol,
           token0Amount: transactionAdvancedData?.amount0
             ? parseFloat(transactionAdvancedData.amount0)
             : 0,

@@ -5,7 +5,7 @@ import { EthereumBlocksClient } from "../apollo"
 import { GetTopPoolsDocument, GetPoolsDataDocument } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
 import { PoolData } from "../types/types"
-import { getUnix24h, getUnix7d, mappingData } from "../utils"
+import { getUnix24h, getUnix7d, mappingData, formatTokenSymbol } from "../utils"
 
 export default () => {
   const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {
@@ -113,10 +113,20 @@ export default () => {
             tvlToken1 * parseFloat(pool?.current?.token1?.derivedETH) * ethPrice
           : 0
 
+      const formattedToken0Symbol =
+        pool?.current?.token0?.symbol && pool?.current?.token0?.id
+          ? formatTokenSymbol(pool?.current?.token0?.symbol, pool?.current?.token0?.id)
+          : "-"
+
+      const formattedToken1Symbol =
+        pool?.current?.token1?.symbol && pool?.current?.token1?.id
+          ? formatTokenSymbol(pool?.current?.token1?.symbol, pool?.current?.token1?.id)
+          : "-"
+
       return {
         id: pool?.current?.id ?? "",
-        token0Symbol: pool?.current?.token0?.symbol ?? "-",
-        token1Symbol: pool?.current?.token1?.symbol ?? "-",
+        token0Symbol: formattedToken0Symbol,
+        token1Symbol: formattedToken1Symbol,
         token0Address: pool?.current?.token0?.id ?? "",
         token1Address: pool?.current?.token1?.id ?? "",
         feeTier: pool?.current?.feeTier ? parseInt(pool?.current?.feeTier) : 0,
