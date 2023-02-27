@@ -95,8 +95,15 @@ const TopPoolsTable = () => {
     {
       columns,
       data: data,
+      disableSortRemove: true,
       initialState: {
         pageSize: 10,
+        sortBy: [
+          {
+            id: "tvl",
+            desc: true,
+          },
+        ],
       },
     },
     useSortBy,

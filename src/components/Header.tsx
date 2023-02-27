@@ -14,7 +14,6 @@ const Header = () => {
   const refreshApp =
     fetchAppData && !isAppLoading
       ? async () => {
-          console.log("refreshing")
           await fetchAppData()
         }
       : () => {

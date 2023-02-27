@@ -153,8 +153,15 @@ const TransactionsTable = () => {
     {
       columns,
       data: transactionsData,
+      disableSortRemove: true,
       initialState: {
         pageSize: 10,
+        sortBy: [
+          {
+            id: "timestamp",
+            desc: true,
+          },
+        ],
       },
     },
     useFilters,
