@@ -8,13 +8,14 @@ export interface TableProps {
   tableInstance: ReturnType<typeof useTable>
   isLoading: boolean
   isError: boolean
+  isIndexed?: boolean
 }
 
 const TableWrapper = ({ children }: { children: React.ReactNode }) => {
   return <div className="p-3.5 my-4 bg-primary rounded-2xl">{children}</div>
 }
 
-const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError }) => {
+const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError, isIndexed }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -74,6 +75,16 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError
           {headerGroups.map((headerGroup, i) => {
             return (
               <tr {...headerGroup.getHeaderGroupProps()} key={i}>
+                {isIndexed && (
+                  <th
+                    colSpan={1}
+                    role="columnheader"
+                    scope="col"
+                    className="hover:opacity-60 border-b border-secondary cursor-pointer flex"
+                  >
+                    <div className="flex items-center pb-3">#</div>
+                  </th>
+                )}
                 {headerGroup.headers.map((column, i) => {
                   return (
                     <th
@@ -107,17 +118,20 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError
           })}
         </thead>
         <tbody {...getTableBodyProps()} className="">
-          {page.map((row, idx) => {
+          {page.map((row, i) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()} key={idx} className="hover:opacity-60 cursor-pointer">
-                {row.cells.map((cell, idx) => {
+              <tr {...row.getRowProps()} key={i} className="hover:opacity-60 cursor-pointer">
+                {isIndexed && (
+                  <td className="py-3 border-b border-secondary">{i + 1 + pageIndex * 10}</td>
+                )}
+                {row.cells.map((cell, i) => {
                   return (
                     <td
                       {...cell.getCellProps()}
                       className="py-3 border-b border-secondary"
                       //   className="whitespace-nowrap px-2 md:px-4 py-2 md:py-4"
-                      key={idx}
+                      key={i}
                     >
                       {cell.render("Cell")}
                     </td>

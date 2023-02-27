@@ -35,23 +35,8 @@ const PoolDescriptionCell = ({
 const TopPoolsTable = () => {
   const { poolsData, isLoadingPools, isErrorPools } = useContext(AppContext)
 
-  const data = useMemo(() => {
-    return poolsData.map((token, i) => {
-      return {
-        ...token,
-        id: i + 1,
-      }
-    })
-  }, [poolsData])
-
   const columns = useMemo<ReadonlyArray<Column>>(
     () => [
-      {
-        Header: "#",
-        Cell: ({ value }: { value: number }) => <p>{value}</p>,
-        accessor: "id",
-        disableSortBy: true,
-      },
       {
         Header: "Pool",
         Cell: (args) => {
@@ -94,7 +79,7 @@ const TopPoolsTable = () => {
   const tableInstance = useTable(
     {
       columns,
-      data: data,
+      data: poolsData,
       disableSortRemove: true,
       initialState: {
         pageSize: 10,
@@ -115,6 +100,7 @@ const TopPoolsTable = () => {
       tableInstance={tableInstance}
       isLoading={isLoadingPools}
       isError={isErrorPools}
+      isIndexed
     />
   )
 }

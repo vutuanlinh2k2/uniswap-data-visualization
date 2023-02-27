@@ -42,23 +42,8 @@ const TokenPriceChangeCell = ({ priceChange }: { priceChange: number }) => {
 const TopTokensTable = () => {
   const { tokensData, isLoadingTokens, isErrorTokens } = useContext(AppContext)
 
-  const data = useMemo(() => {
-    return tokensData.map((token, i) => {
-      return {
-        ...token,
-        id: i + 1,
-      }
-    })
-  }, [tokensData])
-
   const columns = useMemo<ReadonlyArray<Column>>(
     () => [
-      {
-        Header: "#",
-        Cell: ({ value }: { value: number }) => <p className="table-number">{value}</p>,
-        accessor: "id",
-        disableSortBy: true,
-      },
       {
         Header: "Name",
         Cell: (args) => {
@@ -104,7 +89,7 @@ const TopTokensTable = () => {
   const tableInstance = useTable(
     {
       columns,
-      data: data,
+      data: tokensData,
       disableSortRemove: true,
       initialState: {
         pageSize: 10,
@@ -124,6 +109,7 @@ const TopTokensTable = () => {
       tableInstance={tableInstance}
       isLoading={isLoadingTokens}
       isError={isErrorTokens}
+      isIndexed
     />
   )
 }
