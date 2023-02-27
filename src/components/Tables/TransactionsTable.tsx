@@ -97,6 +97,7 @@ const TransactionsTable = () => {
         accessor: "type",
         disableSortBy: true,
         Filter: (args) => <TransactionFilter {...args} />,
+        width: "25%",
       },
       {
         Header: () => <TableHeaderText headerTitle="Total Value" />,
@@ -105,6 +106,7 @@ const TransactionsTable = () => {
         ),
         accessor: "totalValue",
         disableFilters: true,
+        width: "15%",
       },
       {
         Header: () => <TableHeaderText headerTitle="Token Amount" />,
@@ -115,6 +117,7 @@ const TransactionsTable = () => {
         },
         accessor: "token0",
         disableFilters: true,
+        width: "15%",
       },
       {
         Header: () => <TableHeaderText headerTitle="Token Amount" />,
@@ -125,6 +128,7 @@ const TransactionsTable = () => {
         },
         accessor: "token1",
         disableFilters: true,
+        width: "15%",
       },
       {
         Header: () => <TableHeaderText headerTitle="Account" />,
@@ -137,6 +141,7 @@ const TransactionsTable = () => {
         ),
         accessor: "account",
         disableFilters: true,
+        width: "15%",
       },
       {
         Header: () => <TableHeaderText headerTitle="Time" />,
@@ -148,6 +153,7 @@ const TransactionsTable = () => {
           ),
         accessor: "timestamp",
         disableFilters: true,
+        width: "15%",
       },
     ],
     []

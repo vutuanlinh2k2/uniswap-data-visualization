@@ -80,7 +80,7 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError
                     colSpan={1}
                     role="columnheader"
                     scope="col"
-                    className="hover:opacity-60 border-b border-secondary cursor-pointer flex"
+                    className="hover:opacity-60 border-b border-secondary cursor-pointer flex w-8"
                   >
                     <div className="flex items-center pb-3">#</div>
                   </th>
@@ -89,6 +89,11 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError
                   return (
                     <th
                       {...column.getHeaderProps(column.getSortByToggleProps())}
+                      {...column.getHeaderProps({
+                        style: {
+                          width: column.width,
+                        },
+                      })}
                       key={i}
                       scope="col"
                       className={
@@ -123,16 +128,11 @@ const TableTemplate: React.FC<TableProps> = ({ tableInstance, isLoading, isError
             return (
               <tr {...row.getRowProps()} key={i} className="hover:opacity-60 cursor-pointer">
                 {isIndexed && (
-                  <td className="py-3 border-b border-secondary">{i + 1 + pageIndex * 10}</td>
+                  <td className="py-3 border-b border-secondary w-8">{i + 1 + pageIndex * 10}</td>
                 )}
                 {row.cells.map((cell, i) => {
                   return (
-                    <td
-                      {...cell.getCellProps()}
-                      className="py-3 border-b border-secondary"
-                      //   className="whitespace-nowrap px-2 md:px-4 py-2 md:py-4"
-                      key={i}
-                    >
+                    <td {...cell.getCellProps()} className="py-3 border-b border-secondary" key={i}>
                       {cell.render("Cell")}
                     </td>
                   )

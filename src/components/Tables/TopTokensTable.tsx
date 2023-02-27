@@ -54,6 +54,7 @@ const TopTokensTable = () => {
         },
         accessor: "address",
         disableSortBy: true,
+        width: "40%",
       },
       {
         Header: () => <TableHeaderText headerTitle="Price" />,
@@ -61,12 +62,14 @@ const TopTokensTable = () => {
           <TableCellText isNumber cellText={formatDollar(value)} />
         ),
         accessor: "price",
+        width: "15%",
       },
       {
         Header: () => <TableHeaderText headerTitle="Price Change" />,
         Cell: ({ value }: { value: number }) => <TokenPriceChangeCell priceChange={value} />,
         accessor: "priceChange",
         sortType: "basic",
+        width: "15%",
       },
       {
         Header: () => <TableHeaderText headerTitle="Volume 24H" />,
@@ -74,6 +77,7 @@ const TopTokensTable = () => {
           <TableCellText isNumber cellText={formatDollar(value)} />
         ),
         accessor: "volume24h",
+        width: "15%",
       },
       {
         Header: () => <TableHeaderText headerTitle="TVL" />,
@@ -81,6 +85,7 @@ const TopTokensTable = () => {
           <TableCellText isNumber cellText={formatDollar(value)} />
         ),
         accessor: "tvl",
+        width: "15%",
       },
     ],
     []
