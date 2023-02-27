@@ -8,14 +8,8 @@ import {
   GetEthPriceDocument,
 } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
-import { TokenData } from "../types/types"
-import {
-  getUnix24h,
-  roundedSmallFloat,
-  mappingData,
-  formatTokenName,
-  formatTokenSymbol,
-} from "../utils"
+import { formatTokensData } from "../data"
+import { getUnix24h } from "../utils"
 
 export default () => {
   const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {
@@ -80,38 +74,7 @@ export default () => {
       }
     }
 
-    const mappingTokensData = mappingData(queryTokensData.tokens, queryTokensData24h.tokens, [])
-
-    const formattedData: TokenData[] = Object.values(mappingTokensData).map((token) => {
-      const priceCurrent =
-        parseFloat(token?.current?.derivedETH) * parseFloat(queryEthPrice?.current[0].ethPriceUSD)
-      const price24h =
-        parseFloat(token?.oneDay?.derivedETH) * parseFloat(queryEthPrice?.oneDay[0].ethPriceUSD)
-      const priceChange = 100 * ((priceCurrent - price24h) / price24h)
-
-      const formattedTokenName =
-        token?.current?.id && token?.current?.name
-          ? formatTokenName(token?.current?.name, token?.current?.id)
-          : "-"
-
-      const formattedTokenSymbol =
-        token?.current?.id && token?.current?.symbol
-          ? formatTokenSymbol(token?.current?.symbol, token?.current?.id)
-          : "-"
-
-      return {
-        address: token?.current?.id ?? "",
-        name: formattedTokenName,
-        symbol: formattedTokenSymbol,
-        tvl: token?.current?.totalValueLockedUSD ?? 0,
-        price: roundedSmallFloat(priceCurrent) ?? 0,
-        priceChange: priceChange ?? 0,
-        volume24h:
-          token?.current?.volumeUSD && token?.oneDay?.volumeUSD
-            ? Math.abs(parseFloat(token?.current?.volumeUSD) - parseFloat(token?.oneDay?.volumeUSD))
-            : 0,
-      }
-    })
+    const formattedData = formatTokensData(queryTokensData, queryTokensData24h, queryEthPrice)
 
     return {
       data: formattedData,
