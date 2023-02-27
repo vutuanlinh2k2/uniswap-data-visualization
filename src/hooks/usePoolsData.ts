@@ -4,6 +4,7 @@ import { useLazyQuery } from "@apollo/client"
 import { EthereumBlocksClient } from "../apollo"
 import { GetTopPoolsDocument, GetPoolsDataDocument } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
+import { PoolData } from "../types/types"
 import { getUnix24h, getUnix7d, mappingData } from "../utils"
 
 export default () => {
@@ -87,7 +88,7 @@ export default () => {
       queryPoolsData7d.pools
     )
 
-    const formattedData = Object.values(mappingPoolsData).map((pool) => {
+    const formattedData: PoolData[] = Object.values(mappingPoolsData).map((pool) => {
       const ethPrice = queryPoolsData.bundles[0].ethPriceUSD
         ? parseFloat(queryPoolsData.bundles[0].ethPriceUSD)
         : 0

@@ -8,6 +8,7 @@ import {
   GetEthPriceDocument,
 } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
+import { TokenData } from "../types/types"
 import { getUnix24h, roundedSmallFloat, mappingData } from "../utils"
 
 export default () => {
@@ -75,7 +76,7 @@ export default () => {
 
     const mappingTokensData = mappingData(queryTokensData.tokens, queryTokensData24h.tokens, [])
 
-    const formattedData = Object.values(mappingTokensData).map((token) => {
+    const formattedData: TokenData[] = Object.values(mappingTokensData).map((token) => {
       const priceCurrent =
         parseFloat(token?.current?.derivedETH) * parseFloat(queryEthPrice?.current[0].ethPriceUSD)
       const price24h =
