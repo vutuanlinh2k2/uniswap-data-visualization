@@ -4,7 +4,7 @@
 
 This is a project to display DeFi data related to tokens, pools and transactions from the Uniswap Protocol, following the [Uniswap Info website](https://info.uniswap.org/#/). [Uniswap V3 Subgraph](https://thegraph.com/hosted-service/subgraph/uniswap/uniswap-v3) and [Ethereum Blocks](https://thegraph.com/hosted-service/subgraph/blocklytics/ethereum-blocks) are used for API calling.
 
-`!!! Warning`: If facing slowness or errors when running the project locally, please check all of the above sources first.
+`Warning`: If facing slowness or errors when running the project locally, please check all of the above sources first.
 
 ## Technologies used
 - [React](https://reactjs.org/): building UI components
@@ -59,7 +59,7 @@ yarn generate
 yarn start
 ```
 
-- Other scripts
+### Other scripts
 
 * `yarn generate`: Regenerate Typescript from GraphQL
 * `yarn lint`: lint code using ESLint
