@@ -61,6 +61,16 @@ export default () => {
     const mappingPoolsData = mappingData(queryPoolsData.pools, queryPoolsData24h.pools)
 
     const formattedData = Object.values(mappingPoolsData).map((pool) => {
+      const ethPrice = parseFloat(queryPoolsData.bundles[0].ethPriceUSD)
+      const feePercent = parseFloat(pool?.current?.feeTier) / 10000 / 100
+      const tvlAdjusted0 = (parseFloat(pool.current?.volumeToken0) * feePercent) / 2
+      const tvlAdjusted1 = (parseFloat(pool.current?.volumeToken1) * feePercent) / 2
+      const tvlToken0 = parseFloat(pool.current?.totalValueLockedToken0) - tvlAdjusted0
+      const tvlToken1 = parseFloat(pool.current?.totalValueLockedToken1) - tvlAdjusted1
+      const tvl =
+        tvlToken0 * parseFloat(pool?.current?.token0?.derivedETH) * ethPrice +
+        tvlToken1 * parseFloat(pool?.current?.token1?.derivedETH) * ethPrice
+
       return {
         id: pool?.current?.id,
         token0Symbol: pool?.current?.token0?.symbol,
@@ -68,7 +78,7 @@ export default () => {
         token0Address: pool?.current?.token0?.id,
         token1Address: pool?.current?.token1?.id,
         feeTier: parseInt(pool?.current?.feeTier),
-        tvl: pool?.current?.totalValueLockedUSD,
+        tvl: tvl,
         volume24h: Math.abs(
           parseFloat(pool?.current?.volumeUSD) - parseFloat(pool?.oneDay?.volumeUSD)
         ),

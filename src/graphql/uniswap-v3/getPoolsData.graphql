@@ -16,13 +16,23 @@ query getPoolsData($idIn: [ID!], $block: Block_height) {
     token0 {
       id
       symbol
+      derivedETH
     }
     token1 {
       id
       symbol
+      derivedETH
     }
     totalValueLockedUSD
     feeTier
     volumeUSD
+    volumeToken0
+    volumeToken1
+    totalValueLockedToken0
+    totalValueLockedToken1
+  }
+
+  bundles(first: 1, subgraphError: allow) {
+    ethPriceUSD
   }
 }

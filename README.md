@@ -7,12 +7,14 @@ This is a project to display DeFi data related to tokens, pools and transactions
 `Warning`: If facing slowness or errors when running the project locally, please check all of the above sources first.
 
 ## Technologies used
+
 - [React](https://reactjs.org/): building UI components
 - React Context: state management
 - [Apollo Client](https://www.apollographql.com/docs/react/): GraphQl queries and client set-up
 - [tailwindcss](https://tailwindcss.com/): styling
 
 ## Project structure
+
 - `components`: React components
 - `generate`: Generated types from GraphQL queries
 - `graphql`: Defined GraphQL queries
@@ -61,5 +63,5 @@ yarn start
 
 ### Other scripts
 
-* `yarn generate`: Regenerate Typescript from GraphQL
-* `yarn lint`: lint code using ESLint
+- `yarn generate`: Regenerate Typescript from GraphQL
+- `yarn lint`: lint code using ESLint
