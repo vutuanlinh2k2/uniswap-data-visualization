@@ -29,3 +29,17 @@ export const getUnix24h = (): number => {
   // Convert the Unix time to seconds and return it
   return Math.floor(roundedOneDayAgo / 1000)
 }
+
+export const getUnix7d = (): number => {
+  // Get the current Unix time in milliseconds
+  const now = new Date().getTime()
+
+  // Calculate the Unix time 1 day ago (in milliseconds)
+  const oneWeekAgo = now - 7 * 24 * 60 * 60 * 1000
+
+  // Round the Unix time to the nearest minute
+  const roundedOneWeekAgo = Math.round(oneWeekAgo / (60 * 1000)) * (60 * 1000)
+
+  // Convert the Unix time to seconds and return it
+  return Math.floor(roundedOneWeekAgo / 1000)
+}

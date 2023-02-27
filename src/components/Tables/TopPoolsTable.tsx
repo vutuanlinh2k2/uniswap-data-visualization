@@ -57,7 +57,7 @@ const TopPoolsTable = () => {
         },
         accessor: "feeTier",
         disableSortBy: true,
-        width: "70%",
+        width: "55%",
       },
       {
         Header: () => <TableHeaderText headerTitle="TVL" />,
@@ -73,6 +73,14 @@ const TopPoolsTable = () => {
           <TableCellText isNumber cellText={formatDollar(value)} />
         ),
         accessor: "volume24h",
+        width: "15%",
+      },
+      {
+        Header: () => <TableHeaderText headerTitle="Volume 7D" />,
+        Cell: ({ value }: { value: number }) => (
+          <TableCellText isNumber cellText={formatDollar(value)} />
+        ),
+        accessor: "volume7d",
         width: "15%",
       },
     ],

@@ -4,7 +4,7 @@ import { useLazyQuery } from "@apollo/client"
 import { EthereumBlocksClient } from "../apollo"
 import { GetTopPoolsDocument, GetPoolsDataDocument } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
-import { getUnix24h, mappingData } from "../utils"
+import { getUnix24h, getUnix7d, mappingData } from "../utils"
 
 export default () => {
   const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {
@@ -21,13 +21,23 @@ export default () => {
     })
 
     const unix24h = getUnix24h()
-    const { data: queryBlocksData, error: queryBlocksError } = await getBlocksQuery({
+    const unix7d = getUnix7d()
+
+    const { data: queryBlocksData24h, error: queryBlocks24hError } = await getBlocksQuery({
       variables: {
         timestamp_gt: unix24h,
         timestamp_lt: unix24h + 600,
       },
     })
-    const blockNumber = parseInt(queryBlocksData?.blocks[0].number)
+    const blockNumber24h = parseInt(queryBlocksData24h?.blocks[0].number)
+
+    const { data: queryBlocksData7d, error: queryBlocks7dError } = await getBlocksQuery({
+      variables: {
+        timestamp_gt: unix7d,
+        timestamp_lt: unix7d + 600,
+      },
+    })
+    const blockNumber7d = parseInt(queryBlocksData7d?.blocks[0].number)
 
     const { data: queryPoolsData, error: queryPoolsError } = await getPoolsQuery({
       variables: {
@@ -38,19 +48,32 @@ export default () => {
     const { data: queryPoolsData24h, error: queryPools24hError } = await getPoolsQuery({
       variables: {
         idIn: ids,
-        block: { number: blockNumber },
+        block: { number: blockNumber24h },
+      },
+    })
+
+    const { data: queryPoolsData7d, error: queryPools7dError } = await getPoolsQuery({
+      variables: {
+        idIn: ids,
+        block: { number: blockNumber7d },
       },
     })
 
     const isError =
-      !!queryTopPoolsError || !!queryBlocksError || !!queryPoolsError || !!queryPools24hError
+      !!queryTopPoolsError ||
+      !!queryBlocks24hError ||
+      !!queryBlocks7dError ||
+      !!queryPoolsError ||
+      !!queryPools24hError ||
+      !!queryPools7dError
 
     if (
       isError ||
       !queryTopPoolsData ||
-      !queryBlocksData ||
+      !queryBlocksData24h ||
       !queryPoolsData ||
-      !queryPoolsData24h
+      !queryPoolsData24h ||
+      !queryPoolsData7d
     ) {
       return {
         data: [],
@@ -58,7 +81,11 @@ export default () => {
       }
     }
 
-    const mappingPoolsData = mappingData(queryPoolsData.pools, queryPoolsData24h.pools)
+    const mappingPoolsData = mappingData(
+      queryPoolsData.pools,
+      queryPoolsData24h.pools,
+      queryPoolsData7d.pools
+    )
 
     const formattedData = Object.values(mappingPoolsData).map((pool) => {
       const ethPrice = queryPoolsData.bundles[0].ethPriceUSD
@@ -96,6 +123,10 @@ export default () => {
         volume24h:
           pool?.current?.volumeUSD && pool?.oneDay?.volumeUSD
             ? Math.abs(parseFloat(pool?.current?.volumeUSD) - parseFloat(pool?.oneDay?.volumeUSD))
+            : 0,
+        volume7d:
+          pool?.current?.volumeUSD && pool?.oneWeek?.volumeUSD
+            ? Math.abs(parseFloat(pool?.current?.volumeUSD) - parseFloat(pool?.oneWeek?.volumeUSD))
             : 0,
       }
     })

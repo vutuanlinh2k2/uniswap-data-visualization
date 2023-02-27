@@ -73,7 +73,7 @@ export default () => {
       }
     }
 
-    const mappingTokensData = mappingData(queryTokensData.tokens, queryTokensData24h.tokens)
+    const mappingTokensData = mappingData(queryTokensData.tokens, queryTokensData24h.tokens, [])
 
     const formattedData = Object.values(mappingTokensData).map((token) => {
       const priceCurrent =

@@ -17,6 +17,7 @@ export interface PoolData {
   feeTier: number
   tvl: number
   volume24h: number
+  volume7d: number
 }
 
 export interface TransactionData {
