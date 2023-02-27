@@ -9,31 +9,47 @@ export default () => {
   const fetchTransactionsData = useCallback(async () => {
     const { data: queryTransactionData, error } = await getTransactionsQuery()
     const isError = !!error
-    const data = queryTransactionData
-      ? queryTransactionData.transactions.map((transaction) => {
-          const transactionType =
-            transaction.mints.length > 0 ? "add" : transaction.burns.length > 0 ? "remove" : "swap"
-          const transactionAdvancedData =
-            transaction.mints.length > 0
-              ? transaction.mints[0]
-              : transaction.burns.length > 0
-              ? transaction.burns[0]
-              : transaction.swaps[0]
-          return {
-            hash: transaction.id,
-            timestamp: transaction.timestamp,
-            type: transactionType,
-            token0: transactionAdvancedData?.pool.token0.symbol,
-            token1: transactionAdvancedData?.pool.token1.symbol,
-            token0Amount: parseFloat(transactionAdvancedData?.amount0),
-            token1Amount: parseFloat(transactionAdvancedData?.amount1),
-            account: transactionAdvancedData?.origin,
-            totalValue: parseFloat(transactionAdvancedData?.amountUSD),
-          }
-        })
-      : []
+    if (isError || !queryTransactionData) {
+      return {
+        data: [],
+        isError,
+      }
+    }
+    const formattedData = queryTransactionData.transactions.map((transaction) => {
+      const transactionType =
+        transaction.mints && transaction.burns && transaction.mints
+          ? transaction.mints.length > 0
+            ? "add"
+            : transaction.burns.length > 0
+            ? "remove"
+            : "swap"
+          : undefined
+      const transactionAdvancedData =
+        transaction.mints.length > 0
+          ? transaction.mints[0]
+          : transaction.burns.length > 0
+          ? transaction.burns[0]
+          : transaction.swaps[0]
+      return {
+        hash: transaction.id ?? "",
+        timestamp: transaction.timestamp,
+        type: transactionType,
+        token0: transactionAdvancedData?.pool.token0.symbol ?? "-",
+        token1: transactionAdvancedData?.pool.token1.symbol ?? "-",
+        token0Amount: transactionAdvancedData?.amount0
+          ? parseFloat(transactionAdvancedData?.amount0)
+          : 0,
+        token1Amount: transactionAdvancedData?.amount1
+          ? parseFloat(transactionAdvancedData?.amount1)
+          : 0,
+        account: transactionAdvancedData?.origin ?? "",
+        totalValue: transactionAdvancedData?.amountUSD
+          ? parseFloat(transactionAdvancedData?.amountUSD)
+          : 0,
+      }
+    })
     return {
-      data: isError ? [] : data,
+      data: formattedData,
       isError,
     }
   }, [getTransactionsQuery])

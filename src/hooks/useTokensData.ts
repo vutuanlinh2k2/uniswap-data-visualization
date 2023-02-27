@@ -83,15 +83,16 @@ export default () => {
       const priceChange = 100 * ((priceCurrent - price24h) / price24h)
 
       return {
-        address: token?.current?.id,
-        name: token?.current?.name,
-        symbol: token?.current?.symbol,
-        tvl: token?.current?.totalValueLockedUSD,
-        price: roundedSmallFloat(priceCurrent),
-        priceChange: priceChange,
-        volume24h: Math.abs(
-          parseFloat(token?.current?.volumeUSD) - parseFloat(token?.oneDay?.volumeUSD)
-        ),
+        address: token?.current?.id ?? "",
+        name: token?.current?.name ?? "-",
+        symbol: token?.current?.symbol ?? "-",
+        tvl: token?.current?.totalValueLockedUSD ?? 0,
+        price: roundedSmallFloat(priceCurrent) ?? 0,
+        priceChange: priceChange ?? 0,
+        volume24h:
+          token?.current?.volumeUSD && token?.oneDay?.volumeUSD
+            ? Math.abs(parseFloat(token?.current?.volumeUSD) - parseFloat(token?.oneDay?.volumeUSD))
+            : 0,
       }
     })
 

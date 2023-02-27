@@ -1,34 +1,34 @@
 export interface TokenData {
-  address: string | undefined
-  name: string | undefined
-  symbol: string | undefined
-  tvl: number | undefined
-  price: number | undefined
-  priceChange: number | undefined
-  volume24h: number | undefined
+  address: string
+  name: string
+  symbol: string
+  tvl: number
+  price: number
+  priceChange: number
+  volume24h: number
 }
 
 export interface PoolData {
-  id: string | undefined
-  token0Symbol: string | undefined
-  token1Symbol: string | undefined
-  token0Address: string | undefined
-  token1Address: string | undefined
-  feeTier: number | undefined
-  tvl: number | undefined
-  volume24h: number | undefined
+  id: string
+  token0Symbol: string
+  token1Symbol: string
+  token0Address: string
+  token1Address: string
+  feeTier: number
+  tvl: number
+  volume24h: number
 }
 
 export interface TransactionData {
-  hash: string | undefined
+  hash: string
   timestamp: number | undefined
   type: string | undefined
-  token0: string | undefined
-  token1: string | undefined
-  totalValue: number | undefined
-  token0Amount: number | undefined
-  token1Amount: number | undefined
-  account: string | undefined
+  token0: string
+  token1: string
+  totalValue: number
+  token0Amount: number
+  token1Amount: number
+  account: string
 }
 
 export interface AppContextType {

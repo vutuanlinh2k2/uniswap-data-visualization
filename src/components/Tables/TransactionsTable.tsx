@@ -37,11 +37,12 @@ const TransactionDescriptionCell = ({
   token0,
   token1,
 }: {
-  type: string
+  type: string | undefined
   hash: string
   token0: string
   token1: string
 }) => {
+  if (!type || hash === "") return <p className="text-pink">-</p>
   const verb = type === "add" ? "Add" : type === "remove" ? "Remove" : "Swap"
   const preposition = type === "add" || type === "remove" ? "and" : "for"
   return (
@@ -139,9 +140,12 @@ const TransactionsTable = () => {
       },
       {
         Header: () => <TableHeaderText headerTitle="Time" />,
-        Cell: ({ value }: { value: number }) => (
-          <TableCellText cellText={getTimeSinceEpoch(value)} />
-        ),
+        Cell: ({ value }: { value: number | undefined }) =>
+          value ? (
+            <TableCellText cellText={getTimeSinceEpoch(value)} />
+          ) : (
+            <p className="text-r">-</p>
+          ),
         accessor: "timestamp",
         disableFilters: true,
       },
