@@ -5,6 +5,7 @@ import { BsArrowUp, BsArrowDown } from "react-icons/bs"
 import { AppContext } from "../../AppContext"
 import { TableTemplate, TableHeaderText, TableCellText, CryptoIcon } from "../tableComponents"
 import { formatDollar } from "../../utils"
+import { TOKENS_HIDE } from "../../constants/hide"
 
 const TokenDescriptionCell = ({
   name,
@@ -41,6 +42,13 @@ const TokenPriceChangeCell = ({ priceChange }: { priceChange: number }) => {
 
 const TopTokensTable = () => {
   const { tokensData, isLoadingTokens, isErrorTokens } = useContext(AppContext)
+  console.log("tokensData :", tokensData)
+
+  const filteredData = useMemo(() => {
+    return tokensData.filter((token) => {
+      return !TOKENS_HIDE.includes(token.address)
+    })
+  }, [tokensData])
 
   const columns = useMemo<ReadonlyArray<Column>>(
     () => [
@@ -94,7 +102,7 @@ const TopTokensTable = () => {
   const tableInstance = useTable(
     {
       columns,
-      data: tokensData,
+      data: filteredData,
       disableSortRemove: true,
       initialState: {
         pageSize: 10,

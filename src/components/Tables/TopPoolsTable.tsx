@@ -4,6 +4,7 @@ import { Column, usePagination, useSortBy, useTable } from "react-table"
 import { AppContext } from "../../AppContext"
 import { TableTemplate, TableHeaderText, TableCellText, CryptoIcon } from "../tableComponents"
 import { formatDollar, formatNumber } from "../../utils"
+import { POOLS_HIDE } from "../../constants/hide"
 
 const PoolDescriptionCell = ({
   token0Symbol,
@@ -34,6 +35,12 @@ const PoolDescriptionCell = ({
 
 const TopPoolsTable = () => {
   const { poolsData, isLoadingPools, isErrorPools } = useContext(AppContext)
+
+  const filteredData = useMemo(() => {
+    return poolsData.filter((pool) => {
+      return !POOLS_HIDE.includes(pool.id)
+    })
+  }, [poolsData])
 
   const columns = useMemo<ReadonlyArray<Column>>(
     () => [
@@ -90,7 +97,7 @@ const TopPoolsTable = () => {
   const tableInstance = useTable(
     {
       columns,
-      data: poolsData,
+      data: filteredData,
       disableSortRemove: true,
       initialState: {
         pageSize: 10,
