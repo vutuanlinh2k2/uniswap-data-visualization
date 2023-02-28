@@ -2,25 +2,29 @@
 
 ## About
 
-This is a project to display DeFi data related to tokens, pools and transactions from the Uniswap Protocol, following the [Uniswap Info website](https://info.uniswap.org/#/). [Uniswap V3 Subgraph](https://thegraph.com/hosted-service/subgraph/uniswap/uniswap-v3) and [Ethereum Blocks](https://thegraph.com/hosted-service/subgraph/blocklytics/ethereum-blocks) are used for API calling.
+This is a project to display DeFi data related to tokens, pools and transactions from the Uniswap Protocol, following the [Uniswap Info website](https://info.uniswap.org/#/). [Uniswap V3 Subgraph](https://thegraph.com/hosted-service/subgraph/uniswap/uniswap-v3) and [Ethereum Blocks](https://thegraph.com/hosted-service/subgraph/blocklytics/ethereum-blocks) are used for GraphQL API calling.
 
-`Warning`: If facing slowness or errors when running the project locally, please check all of the above sources first.
+`Warning`: If facing slowness or errors when running the project locally, please click Refresh and/or check all of the mentioned sources first.
 
 ## Technologies used
 
-- [React](https://reactjs.org/): building UI components
-- React Context: state management
-- [Apollo Client](https://www.apollographql.com/docs/react/): GraphQl queries and client set-up
+- [React](https://reactjs.org/) (with [Typescript](https://www.typescriptlang.org/)): building UI components + state management (with Context)
+- [Apollo Client](https://www.apollographql.com/docs/react/): GraphQl queries and clients set-up
 - [tailwindcss](https://tailwindcss.com/): styling
 
 ## Project structure
 
+- `apollo`: Define Apollo clients
 - `components`: React components
+- `constants`: Project constants
+- `context`: Handle app's Context
+- `data`: Define apps, data types and formatting-data functions
 - `generate`: Generated types from GraphQL queries
 - `graphql`: Defined GraphQL queries
 - `hooks`: Custom React hooks
+- `test`: Test utility functions
 - `types`: Defined Typescript type files
-- `utils`: Commonly-used utilities
+- `utils`: Commonly-used utility functions
 
 ## Running the project locally
 
@@ -49,7 +53,7 @@ cd uniswap-data-visualization
 yarn
 ```
 
-4. Generate types from GraphQl queries
+4. Generate types from GraphQL queries
 
 ```shell
 yarn generate
@@ -63,5 +67,5 @@ yarn start
 
 ### Other scripts
 
-- `yarn generate`: Regenerate Typescript from GraphQL
-- `yarn lint`: lint code using ESLint
+- `yarn prertier`: Format code
+- `yarn lint`: Linting check
