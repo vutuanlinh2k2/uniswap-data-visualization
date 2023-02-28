@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, createContext } from "react"
 
-import useTokensData from "./hooks/useTokensData"
-import usePoolsData from "./hooks/usePoolsData"
-import useTransactionsData from "./hooks/useTransactionsData"
-import { AppContextType } from "./types/types"
+import useTokensData from "../hooks/useTokensData"
+import usePoolsData from "../hooks/usePoolsData"
+import useTransactionsData from "../hooks/useTransactionsData"
+import { AppContextType } from "../types/types"
 
 export const AppContext = createContext<AppContextType>({
   tokensData: [],

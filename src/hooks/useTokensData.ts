@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 import { useLazyQuery } from "@apollo/client"
 
-import { EthereumBlocksClient } from "../apollo"
+import { EthereumBlocksClient } from "../apollo/client"
 import {
   GetTopTokensDocument,
   GetTokensDataDocument,

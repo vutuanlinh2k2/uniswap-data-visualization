@@ -1,82 +1,13 @@
 import React, { useContext, useMemo } from "react"
-import { Column, usePagination, useSortBy, useTable, useFilters, ColumnInstance } from "react-table"
+import { Column, usePagination, useSortBy, useTable, useFilters } from "react-table"
 
-import { AppContext } from "../../AppContext"
-import { TableTemplate, TableHeaderText, TableCellText } from "../tableComponents"
-import {
-  formatDollar,
-  formatNumber,
-  getTimeSinceEpoch,
-  shortenHash,
-  getEtherscanTransaction,
-  getEtherScanAccount,
-} from "../../utils"
-
-const transactionFilterOptions = [
-  {
-    value: undefined,
-    text: "All",
-  },
-  {
-    value: "swap",
-    text: "Swaps",
-  },
-  {
-    value: "add",
-    text: "Adds",
-  },
-  {
-    value: "remove",
-    text: "Removes",
-  },
-]
-
-const TransactionDescriptionCell = ({
-  type,
-  hash,
-  token0,
-  token1,
-}: {
-  type: string | undefined
-  hash: string
-  token0: string
-  token1: string
-}) => {
-  if (!type || hash === "") return <p className="text-pink">-</p>
-  const verb = type === "add" ? "Add" : type === "remove" ? "Remove" : "Swap"
-  const preposition = type === "add" || type === "remove" ? "and" : "for"
-  return (
-    <a
-      href={getEtherscanTransaction(hash)}
-      className="text-pink"
-    >{`${verb} ${token0} ${preposition} ${token1}`}</a>
-  )
-}
-
-const TokenAmountCell = ({ symbol, amount }: { symbol: string; amount: number }) => {
-  return <p className="text-right table-number">{`${formatNumber(Math.abs(amount))} ${symbol}`}</p>
-}
-
-const TransactionFilter: React.FC<{ column: ColumnInstance }> = ({
-  column: { filterValue, setFilter },
-}) => {
-  const unselectedClassName = "text-grey-secondary"
-  return (
-    <div className="flex gap-3 cursor-pointer">
-      {transactionFilterOptions.map((option, i) => (
-        <p
-          key={i}
-          className={filterValue === option.value ? "" : unselectedClassName}
-          onClick={() => {
-            setFilter(option.value)
-          }}
-        >
-          {option.text}
-        </p>
-      ))}
-    </div>
-  )
-}
+import { AppContext } from "../../context/AppContext"
+import { TableTemplate } from "../TableTemplate"
+import TransactionDescriptionCell from "./TransactionDescriptionCell"
+import TokenAmountCell from "./TokenAmountCell"
+import TransactionsFilter from "./TransactionsFilter"
+import { TableHeaderText, TableCellText } from "../tableComponents"
+import { formatDollar, getTimeSinceEpoch, shortenHash, getEtherScanAccount } from "../../utils"
 
 const TransactionsTable = () => {
   const { transactionsData, isTransactionsLoading, isTransactionsError } = useContext(AppContext)
@@ -96,7 +27,7 @@ const TransactionsTable = () => {
         },
         accessor: "type",
         disableSortBy: true,
-        Filter: (args) => <TransactionFilter {...args} />,
+        Filter: (args) => <TransactionsFilter {...args} />,
         width: "25%",
       },
       {

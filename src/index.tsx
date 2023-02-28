@@ -4,8 +4,8 @@ import { ApolloProvider } from "@apollo/client"
 
 import "./index.css"
 import App from "./App"
-import { AppContextProvider } from "./AppContext"
-import { UniswapV3Client } from "./apollo"
+import { AppContextProvider } from "./context/AppContext"
+import { UniswapV3Client } from "./apollo/client"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(

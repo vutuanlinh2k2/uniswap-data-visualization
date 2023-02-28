@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react"
 
-import { checksumAddress } from "../../utils/ethereum"
+import { checksumAddress } from "../../../utils/ethereum"
 import { AiFillQuestionCircle } from "react-icons/ai"
 
 const CryptoIcon = ({ address, size }: { address: string; size: number }) => {
