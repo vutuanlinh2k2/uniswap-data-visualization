@@ -1,1 +1,1 @@
-export { default as TableCellText } from "./TableCellText"
+export { default as TableCell } from "./TableCell"

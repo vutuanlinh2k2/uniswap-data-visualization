@@ -6,7 +6,7 @@ import { TableTemplate } from "../TableTemplate"
 import TransactionDescriptionCell from "./TransactionDescriptionCell"
 import TokenAmountCell from "./TokenAmountCell"
 import TransactionsFilter from "./TransactionsFilter"
-import { TableHeaderText, TableCellText } from "../tableComponents"
+import { TableHeader, TableCell } from "../tableComponents"
 import { formatDollar, getTimeSinceEpoch, shortenHash, getEtherScanAccount } from "../../utils"
 
 const TransactionsTable = () => {
@@ -31,16 +31,16 @@ const TransactionsTable = () => {
         width: "25%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Total Value" />,
+        Header: () => <TableHeader headerText="Total Value" />,
         Cell: ({ value }: { value: number }) => (
-          <TableCellText isNumber cellText={formatDollar(value)} />
+          <TableCell isNumber cellText={formatDollar(value)} />
         ),
         accessor: "totalValue",
         disableFilters: true,
         width: "15%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Token Amount" />,
+        Header: () => <TableHeader headerText="Token Amount" />,
         Cell: (args) => {
           const { value, row } = args
           const amount = row.original["token0Amount" as keyof typeof row.original]
@@ -51,7 +51,7 @@ const TransactionsTable = () => {
         width: "15%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Token Amount" />,
+        Header: () => <TableHeader headerText="Token Amount" />,
         Cell: (args) => {
           const { value, row } = args
           const amount = row.original["token1Amount" as keyof typeof row.original]
@@ -62,7 +62,7 @@ const TransactionsTable = () => {
         width: "15%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Account" />,
+        Header: () => <TableHeader headerText="Account" />,
         Cell: ({ value }: { value: string }) => (
           <p className="text-right table-number">
             <a href={getEtherScanAccount(value)} className="text-lg text-pink">
@@ -75,13 +75,9 @@ const TransactionsTable = () => {
         width: "15%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Time" />,
+        Header: () => <TableHeader headerText="Time" />,
         Cell: ({ value }: { value: number | undefined }) =>
-          value ? (
-            <TableCellText cellText={getTimeSinceEpoch(value)} />
-          ) : (
-            <p className="text-r">-</p>
-          ),
+          value ? <TableCell cellText={getTimeSinceEpoch(value)} /> : <p className="text-r">-</p>,
         accessor: "timestamp",
         disableFilters: true,
         width: "15%",

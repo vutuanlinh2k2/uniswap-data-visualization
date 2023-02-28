@@ -5,7 +5,7 @@ import { AppContext } from "../../context/AppContext"
 import { TableTemplate } from "../TableTemplate"
 import TokenDescriptionCell from "./TokenDescriptionCell"
 import TokenPriceChangeCell from "./TokenPriceChangeCell"
-import { TableHeaderText, TableCellText } from "../tableComponents"
+import { TableHeader, TableCell } from "../tableComponents"
 import { formatDollar } from "../../utils"
 import { TOKENS_HIDE } from "../../constants/hide"
 
@@ -33,32 +33,32 @@ const TopTokensTable = () => {
         width: "40%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Price" />,
+        Header: () => <TableHeader headerText="Price" />,
         Cell: ({ value }: { value: number }) => (
-          <TableCellText isNumber cellText={formatDollar(value)} />
+          <TableCell isNumber cellText={formatDollar(value)} />
         ),
         accessor: "price",
         width: "15%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Price Change" />,
+        Header: () => <TableHeader headerText="Price Change" />,
         Cell: ({ value }: { value: number }) => <TokenPriceChangeCell priceChange={value} />,
         accessor: "priceChange",
         sortType: "basic",
         width: "15%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Volume 24H" />,
+        Header: () => <TableHeader headerText="Volume 24H" />,
         Cell: ({ value }: { value: number }) => (
-          <TableCellText isNumber cellText={formatDollar(value)} />
+          <TableCell isNumber cellText={formatDollar(value)} />
         ),
         accessor: "volume24h",
         width: "15%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="TVL" />,
+        Header: () => <TableHeader headerText="TVL" />,
         Cell: ({ value }: { value: number }) => (
-          <TableCellText isNumber cellText={formatDollar(value)} />
+          <TableCell isNumber cellText={formatDollar(value)} />
         ),
         accessor: "tvl",
         width: "15%",

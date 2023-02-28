@@ -4,7 +4,7 @@ import { Column, usePagination, useSortBy, useTable } from "react-table"
 import { AppContext } from "../../context/AppContext"
 import { TableTemplate } from "../TableTemplate"
 import PoolDescriptionCell from "./PoolDescriptionCell"
-import { TableHeaderText, TableCellText } from "../tableComponents"
+import { TableHeader, TableCell } from "../tableComponents"
 import { formatDollar, formatNumber } from "../../utils"
 import { POOLS_HIDE } from "../../constants/hide"
 
@@ -42,25 +42,25 @@ const TopPoolsTable = () => {
         width: "55%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="TVL" />,
+        Header: () => <TableHeader headerText="TVL" />,
         Cell: ({ value }: { value: number }) => (
-          <TableCellText isNumber cellText={formatNumber(value)} />
+          <TableCell isNumber cellText={formatNumber(value)} />
         ),
         accessor: "tvl",
         width: "15%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Volume 24H" />,
+        Header: () => <TableHeader headerText="Volume 24H" />,
         Cell: ({ value }: { value: number }) => (
-          <TableCellText isNumber cellText={formatDollar(value)} />
+          <TableCell isNumber cellText={formatDollar(value)} />
         ),
         accessor: "volume24h",
         width: "15%",
       },
       {
-        Header: () => <TableHeaderText headerTitle="Volume 7D" />,
+        Header: () => <TableHeader headerText="Volume 7D" />,
         Cell: ({ value }: { value: number }) => (
-          <TableCellText isNumber cellText={formatDollar(value)} />
+          <TableCell isNumber cellText={formatDollar(value)} />
         ),
         accessor: "volume7d",
         width: "15%",
