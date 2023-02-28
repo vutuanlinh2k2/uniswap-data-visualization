@@ -1,5 +1,5 @@
 import mappingData from "./mappingData"
-import { PoolData } from "../types/types"
+import { PoolData } from "./types"
 import { GetPoolsDataQuery } from "../generate/uniswap-v3/graphql"
 import { formatTokenSymbol } from "../utils"
 

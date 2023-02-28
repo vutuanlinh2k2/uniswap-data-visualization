@@ -1,5 +1,5 @@
 import mappingData from "./mappingData"
-import { TransactionData } from "../types/types"
+import { TransactionData } from "./types"
 import { formatTokenSymbol } from "../utils"
 import { GetTransactionsDataQuery } from "../generate/uniswap-v3/graphql"
 

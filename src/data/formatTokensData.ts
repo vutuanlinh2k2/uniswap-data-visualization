@@ -1,5 +1,5 @@
 import mappingData from "./mappingData"
-import { TokenData } from "../types/types"
+import { TokenData } from "./types"
 import { GetTokensDataQuery, GetEthPriceQuery } from "../generate/uniswap-v3/graphql"
 import { formatTokenName, formatTokenSymbol, roundedSmallFloat } from "../utils"
 

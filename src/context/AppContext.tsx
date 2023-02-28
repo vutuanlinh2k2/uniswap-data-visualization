@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, createContext } from "react"
 import useTokensData from "../hooks/useTokensData"
 import usePoolsData from "../hooks/usePoolsData"
 import useTransactionsData from "../hooks/useTransactionsData"
-import { AppContextType } from "../types/types"
+import { AppContextType } from "../data/types"
 
 export const AppContext = createContext<AppContextType>({
   tokensData: [],
@@ -64,7 +64,11 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, [fetchTransactionsData])
 
   const fetchAppData = useCallback(async () => {
-    await Promise.all([getTokens(), getPools(), getTransactions()])
+    try {
+      await Promise.all([getTokens(), getPools(), getTransactions()])
+    } catch (error) {
+      console.error(error)
+    }
   }, [getTokens, getPools, getTransactions])
 
   useEffect(() => {
