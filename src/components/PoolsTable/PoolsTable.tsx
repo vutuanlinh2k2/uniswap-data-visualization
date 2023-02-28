@@ -5,7 +5,7 @@ import { AppContext } from "../../context/AppContext"
 import { TableTemplate } from "../TableTemplate"
 import PoolDescriptionCell from "./PoolDescriptionCell"
 import { TableHeader, TableCell } from "../tableComponents"
-import { formatDollar, formatNumber } from "../../utils"
+import { formatDollar } from "../../utils"
 import { POOLS_HIDE } from "../../constants/hide"
 
 const TopPoolsTable = () => {
@@ -44,7 +44,7 @@ const TopPoolsTable = () => {
       {
         Header: () => <TableHeader headerText="TVL" />,
         Cell: ({ value }: { value: number }) => (
-          <TableCell isNumber cellText={formatNumber(value)} />
+          <TableCell isNumber cellText={formatDollar(value)} />
         ),
         accessor: "tvl",
         width: "15%",

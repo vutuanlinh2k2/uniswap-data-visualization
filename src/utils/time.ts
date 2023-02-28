@@ -4,7 +4,7 @@ export const getTimePast = (unix: number): string => {
   const secondsAgo = now - unix
 
   if (secondsAgo < 60) {
-    return `${Math.floor(secondsAgo)} seconds ago`
+    return `${Math.floor(secondsAgo)} ${secondsAgo === 1 ? "second" : "seconds"} ago`
   } else if (secondsAgo < 3600) {
     const minutesAgo = Math.floor(secondsAgo / 60)
     return `${minutesAgo} minute${minutesAgo > 1 ? "s" : ""} ago`
