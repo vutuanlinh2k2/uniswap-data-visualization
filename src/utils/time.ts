@@ -1,3 +1,4 @@
+// a function that takes a unix timestamp and returns a string of how long ago it was
 export const getTimePast = (unix: number): string => {
   const now = Date.now() / 1000
   const secondsAgo = now - unix
@@ -16,6 +17,7 @@ export const getTimePast = (unix: number): string => {
   }
 }
 
+// a function that returns the unix timestamp of 24 hours ago
 export const getTimestamp24h = (): number => {
   const now = new Date().getTime()
   const oneDayAgo = now - 24 * 60 * 60 * 1000
@@ -23,6 +25,7 @@ export const getTimestamp24h = (): number => {
   return Math.floor(roundedOneDayAgo / 1000)
 }
 
+// a function that returns the unix timestamp of 7 days ago
 export const getTimestamp7d = (): number => {
   const now = new Date().getTime()
   const oneWeekAgo = now - 7 * 24 * 60 * 60 * 1000

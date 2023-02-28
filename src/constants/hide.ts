@@ -1,3 +1,4 @@
+// all the variables below are also hardcoded in https://github.com/Uniswap/v3-info/blob/master/src/constants/index.ts
 export const TOKENS_HIDE = [
   "0xd46ba6d942050d489dbd938a2c909a5d5039a161",
   "0x7dfb72a2aad08c937706f21421b15bfc34cba9ca",
