@@ -6,6 +6,6 @@ export const checksumAddress = (value: string): string => {
 
 export const shortenHash = (hash: string): string => {
   const firstSix = hash.substring(0, 6)
-  const lastFour = hash.substring(-4)
+  const lastFour = hash.substring(hash.length - 4)
   return `${firstSix}...${lastFour}`
 }
