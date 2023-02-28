@@ -7,7 +7,7 @@ import TransactionDescriptionCell from "./TransactionDescriptionCell"
 import TokenAmountCell from "./TokenAmountCell"
 import TransactionsFilter from "./TransactionsFilter"
 import { TableHeader, TableCell } from "../tableComponents"
-import { formatDollar, getTimeSinceEpoch, shortenHash, getEtherScanAccount } from "../../utils"
+import { formatDollar, getTimePast, shortenHash, getEtherScanAccount } from "../../utils"
 
 const TransactionsTable = () => {
   const { transactionsData, isTransactionsLoading, isTransactionsError } = useContext(AppContext)
@@ -77,7 +77,7 @@ const TransactionsTable = () => {
       {
         Header: () => <TableHeader headerText="Time" />,
         Cell: ({ value }: { value: number | undefined }) =>
-          value ? <TableCell cellText={getTimeSinceEpoch(value)} /> : <p className="text-r">-</p>,
+          value ? <TableCell cellText={getTimePast(value)} /> : <p className="text-right">-</p>,
         accessor: "timestamp",
         disableFilters: true,
         width: "15%",

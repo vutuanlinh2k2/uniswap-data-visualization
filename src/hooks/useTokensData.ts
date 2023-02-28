@@ -9,13 +9,12 @@ import {
 } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
 import { formatTokensData } from "../data"
-import { getUnix24h } from "../utils"
+import { getTimestamp24h } from "../utils"
 
 export default () => {
   const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {
     client: EthereumBlocksClient,
   })
-
   const [getTopTokensQuery] = useLazyQuery(GetTopTokensDocument)
   const [getTokensQuery] = useLazyQuery(GetTokensDataDocument)
   const [getEthPrice] = useLazyQuery(GetEthPriceDocument)
@@ -25,7 +24,8 @@ export default () => {
     const ids = queryTopTokensData?.tokens.map((token) => {
       return token.id
     })
-    const unix24h = getUnix24h()
+
+    const unix24h = getTimestamp24h()
     const { data: queryBlocksData, error: queryBlocksError } = await getBlocksQuery({
       variables: {
         timestamp_gt: unix24h,

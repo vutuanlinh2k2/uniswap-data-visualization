@@ -1,5 +1,5 @@
 export * from "./ethereum"
 export * from "./etherscan"
+export * from "./format"
 export * from "./number"
 export * from "./time"
-export * from "./format"

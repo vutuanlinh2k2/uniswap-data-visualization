@@ -5,13 +5,12 @@ import { EthereumBlocksClient } from "../apollo/client"
 import { GetTopPoolsDocument, GetPoolsDataDocument } from "../generate/uniswap-v3/graphql"
 import { GetBlocksDocument } from "../generate/ethereum-blocks/graphql"
 import { formatPoolsData } from "../data"
-import { getUnix24h, getUnix7d } from "../utils"
+import { getTimestamp24h, getTimestamp7d } from "../utils"
 
 export default () => {
   const [getBlocksQuery] = useLazyQuery(GetBlocksDocument, {
     client: EthereumBlocksClient,
   })
-
   const [getTopPoolsQuery] = useLazyQuery(GetTopPoolsDocument)
   const [getPoolsQuery] = useLazyQuery(GetPoolsDataDocument)
 
@@ -21,21 +20,20 @@ export default () => {
       return pool.id
     })
 
-    const unix24h = getUnix24h()
-    const unix7d = getUnix7d()
-
+    const timestamp24h = getTimestamp24h()
     const { data: queryBlocksData24h, error: queryBlocks24hError } = await getBlocksQuery({
       variables: {
-        timestamp_gt: unix24h,
-        timestamp_lt: unix24h + 600,
+        timestamp_gt: timestamp24h,
+        timestamp_lt: timestamp24h + 600,
       },
     })
     const blockNumber24h = parseInt(queryBlocksData24h?.blocks[0].number)
 
+    const timestamp7d = getTimestamp7d()
     const { data: queryBlocksData7d, error: queryBlocks7dError } = await getBlocksQuery({
       variables: {
-        timestamp_gt: unix7d,
-        timestamp_lt: unix7d + 600,
+        timestamp_gt: timestamp7d,
+        timestamp_lt: timestamp7d + 600,
       },
     })
     const blockNumber7d = parseInt(queryBlocksData7d?.blocks[0].number)

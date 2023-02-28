@@ -1,6 +1,6 @@
-export const getTimeSinceEpoch = (epochSeconds: number): string => {
-  const now = Date.now() / 1000 // convert current time to seconds
-  const secondsAgo = now - epochSeconds
+export const getTimePast = (unix: number): string => {
+  const now = Date.now() / 1000
+  const secondsAgo = now - unix
 
   if (secondsAgo < 60) {
     return `${Math.floor(secondsAgo)} seconds ago`
@@ -16,30 +16,16 @@ export const getTimeSinceEpoch = (epochSeconds: number): string => {
   }
 }
 
-export const getUnix24h = (): number => {
-  // Get the current Unix time in milliseconds
+export const getTimestamp24h = (): number => {
   const now = new Date().getTime()
-
-  // Calculate the Unix time 1 day ago (in milliseconds)
   const oneDayAgo = now - 24 * 60 * 60 * 1000
-
-  // Round the Unix time to the nearest minute
   const roundedOneDayAgo = Math.round(oneDayAgo / (60 * 1000)) * (60 * 1000)
-
-  // Convert the Unix time to seconds and return it
   return Math.floor(roundedOneDayAgo / 1000)
 }
 
-export const getUnix7d = (): number => {
-  // Get the current Unix time in milliseconds
+export const getTimestamp7d = (): number => {
   const now = new Date().getTime()
-
-  // Calculate the Unix time 1 day ago (in milliseconds)
   const oneWeekAgo = now - 7 * 24 * 60 * 60 * 1000
-
-  // Round the Unix time to the nearest minute
   const roundedOneWeekAgo = Math.round(oneWeekAgo / (60 * 1000)) * (60 * 1000)
-
-  // Convert the Unix time to seconds and return it
   return Math.floor(roundedOneWeekAgo / 1000)
 }
