@@ -22,7 +22,7 @@ export default <QueryDataType extends { id: string }[]>(
     }
     dataMapping[addressCurrent]["current"] = currentData[i]
 
-    if (oneDayData.length === currentData.length) {
+    if (oneDayData[i]) {
       const addressOneDay = oneDayData[i].id
       if (!dataMapping[addressOneDay]) {
         dataMapping[addressOneDay] = {
@@ -34,7 +34,7 @@ export default <QueryDataType extends { id: string }[]>(
       dataMapping[addressOneDay]["oneDay"] = oneDayData[i]
     }
 
-    if (oneWeekData.length === currentData.length) {
+    if (oneWeekData[i]) {
       const addressOneWeek = oneWeekData[i].id
       if (!dataMapping[addressOneWeek]) {
         dataMapping[addressOneWeek] = {
